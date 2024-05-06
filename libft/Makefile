@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 10:09:12 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/01 13:25:40 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/06 11:09:36 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ SRC_FILES = $(LIBFT_F) $(GNL_F) $(PRTF_F)
 
 LIBFT_F=$(LIBFT_DIR)/ft_atoi.c \
 		$(LIBFT_DIR)/ft_atol.c \
+		$(LIBFT_DIR)/ft_bzero.c \
 		$(LIBFT_DIR)/ft_calloc.c \
+		$(LIBFT_DIR)/ft_free_array.c \
 		$(LIBFT_DIR)/ft_isalnum.c \
 		$(LIBFT_DIR)/ft_isalpha.c \
 		$(LIBFT_DIR)/ft_isascii.c \

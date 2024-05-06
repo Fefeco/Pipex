@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/02 20:10:20 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/06 12:02:36 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,13 +15,14 @@ CC=gcc
 FLAGS=-Wall -Wextra -Werror
 LIB_FLAG=-lftprintf -Llibft
 LIB=libftprintf.a
-INC=-Iinc
+INC=-Iinc -Ilibft/inc
 
 OBJ_DIR=objs/
 SRC_DIR=src/
 LIBFT_DIR=libft/
 
-SRC=main.c
+SRC=pipex.c \
+	get_path.c
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
 
 .PHONY: all clean fclean re

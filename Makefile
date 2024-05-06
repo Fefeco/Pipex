@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/06 12:02:36 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/06 12:19:56 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME=pipex
 CC=gcc
 FLAGS=-Wall -Wextra -Werror
 LIB_FLAG=-lftprintf -Llibft
-LIB=libftprintf.a
+LIB=$(LIBFT_DIR)libftprintf.a
 INC=-Iinc -Ilibft/inc
 
 OBJ_DIR=objs/

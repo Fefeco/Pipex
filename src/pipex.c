@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/06 13:34:42 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:02:18 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc != 5)
 		return (perror("INVALID NUMBER OF ARGUMENTS\n"), 1);
 	fd1 = open(argv[1], O_RDONLY);
+	fd2 = open(argv[4], O_WRONLY | O_CREAT, 0777);
 
 	cmd1 = ft_split(argv[2], ' ');
 	cmd2 = ft_split(argv[3], ' ');
@@ -58,6 +59,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		close(fds[0]);
 		dup2(fds[1], STDOUT_FILENO);
+		close(fds[1]);
 		execve(path1, cmd1, NULL);
 	}
 	pid = fork();
@@ -70,6 +72,9 @@ int	main(int argc, char **argv, char **env)
 	{
 		close(fds[1]);
 		dup2(fds[0], STDIN_FILENO);
+		close(fds[1]);
+		dup2(fd2, STDOUT_FILENO);
+		close(fd2);
 		execve(path2, cmd2, NULL);
 	}
 	close(fds[0]);

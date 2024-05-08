@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/06 12:19:56 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/08 18:39:54 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRC_DIR=src/
 LIBFT_DIR=libft/
 
 SRC=pipex.c \
-	get_path.c
+	get_path.c \
+	pipex_utils.c
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
 
 .PHONY: all clean fclean re

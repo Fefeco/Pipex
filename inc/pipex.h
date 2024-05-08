@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/08 13:49:42 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/08 19:04:24 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct s_pipex
 	int		fd1;
 	int		fd2;
 	int		fds[2];
+	int		**pid;
 }	t_pipex;
 
 char	*ft_get_path(char **env, char *cmd);
+int		ft_open_files(char **argv, t_pipex *pipex);

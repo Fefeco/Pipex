@@ -6,13 +6,13 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/08 18:39:54 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/09 20:42:10 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=pipex
 CC=gcc
-FLAGS=-Wall -Wextra -Werror
+FLAGS=-Wall -Wextra -Werror -g
 LIB_FLAG=-lftprintf -Llibft
 LIB=$(LIBFT_DIR)libftprintf.a
 INC=-Iinc -Ilibft/inc
@@ -23,6 +23,8 @@ LIBFT_DIR=libft/
 
 SRC=pipex.c \
 	get_path.c \
+	create_pipe.c \
+	init.c \
 	pipex_utils.c
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
 

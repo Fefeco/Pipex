@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/09 21:06:40 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/14 12:48:49 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
+	int		i;
 
 	(void)argv;
 	(void)env;
@@ -23,24 +24,18 @@ int	main(int argc, char **argv, char **env)
 	pipex.total_cmds = argc - 3;
 	ft_init_cmds(argv, &pipex);
 	ft_init_paths(env, &pipex);
-/*	while (pipex.total_cmds - i)
+	if (ft_open_files(argc, argv, &pipex))
+		return (1);
+	ft_init_fds(&pipex);
+	ft_init_pids(&pipex);
+	i = 0;
+	while (i <= pipex.total_cmds)
 	{
-		pipex.cmd[i] = ft_split(argv[i + 2], ' ');
-		pipex.path[i] = ft_get_path(env, pipex.cmd[i][0]);
+		if (ft_create_pipe(&pipex, i))
+			return (1);
 		++i;
 	}
-	if (ft_open_files(argv, &pipex))
-		return (1);
-	pipex.path1 = ft_get_path(env, pipex.cmd[0][0]);
-	if (!pipex.path1)
-		return (ft_printf("command not found: %s\n", pipex.cmd[0][0]), 1);
-	pipex.path2 = ft_get_path(env, pipex.cmd[1][0]);
-	if (!pipex.path2)
-		return (free (pipex.path1), 
-		ft_printf("command not found: %s\n", pipex.cmd[1][0]), 1);
-	if (ft_create_pipe(&pipex))
-		return (1);
-	if (pipe(pipex.fds) == -1)
+/*	if (pipe(pipex.fds) == -1)
 	{
 		perror("Error pipe()\n");
 		exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:56:37 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/09 18:27:49 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:23:20 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ int	ft_create_pipe(t_pipex *pipex)
 		close (pipex->fds[1]);
 		execve (pipex->path[0], pipex->cmd[0], NULL);
 	}
-	return(0);
+	return (0);
 }

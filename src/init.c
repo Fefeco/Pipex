@@ -6,32 +6,11 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:31:07 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/14 10:22:14 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/14 12:28:21 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	ft_free_cmds(t_pipex *pipex)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i <= pipex->total_cmds)
-	{
-		if (pipex->cmd[i])
-		{
-			j = 0;
-			while (pipex->cmd[i][j])
-				free (pipex->cmd[i][j++]);
-			free (pipex->cmd[i][j]);
-		}
-		free (pipex->cmd[i]);
-		++i;
-	}
-	free (pipex->cmd);
-}
 
 void	ft_init_cmds(char **argv, t_pipex *pipex)
 {
@@ -79,11 +58,47 @@ void	ft_init_paths(char **env, t_pipex *pipex)
 		{
 			ft_printf("command not found: %s\n", pipex->cmd[i][0]);
 			ft_free_cmds(pipex);
-			ft_free_array(pipex->path);
+			ft_free_array((void **)pipex->path);
 			exit(EXIT_FAILURE);
 		}
 		pipex->path[i] = tmp;
 		tmp = NULL;
 		++i;
+	}
+}
+
+void	ft_init_fds(t_pipex *pipex)
+{
+	int	i;
+
+	pipex->fds = (int **)malloc(sizeof(int **) * (pipex->total_cmds - 1));
+	if (!pipex->fds)
+	{
+		ft_free_cmds(pipex);
+		ft_free_array((void **)pipex->path);
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < pipex->total_cmds)
+	{
+		pipex->fds[i] = (int *)malloc(sizeof(int) * 2);
+		if (!pipex->fds[i])
+		{
+			ft_free_fds(pipex);
+			exit(EXIT_FAILURE);
+		}
+		++i;
+	}
+}
+
+void	ft_init_pids(t_pipex *pipex)
+{
+	pipex->pid = (int *)malloc(sizeof(int *) * pipex->total_cmds);
+	if (!pipex->pid)
+	{
+		ft_free_cmds(pipex);
+		ft_free_array((void **)pipex->path);
+		ft_free_fds(pipex);
+		exit(EXIT_FAILURE);
 	}
 }

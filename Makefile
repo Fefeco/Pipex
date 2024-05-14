@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/09 20:42:10 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/14 12:29:07 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC=pipex.c \
 	get_path.c \
 	create_pipe.c \
 	init.c \
+	free.c \
 	pipex_utils.c
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
 

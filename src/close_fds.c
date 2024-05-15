@@ -1,45 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   close_fds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 11:59:46 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/15 13:17:46 by fcarranz         ###   ########.fr       */
+/*   Created: 2024/05/15 09:57:40 by fcarranz          #+#    #+#             */
+/*   Updated: 2024/05/15 12:59:43 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_free_cmds(t_pipex *pipex)
+void	ft_close_fds(t_pipex *pipex)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	while (i <= pipex->total_cmds)
+	while (i < pipex->total_cmds - 2)
 	{
-		if (pipex->cmd[i])
-		{
-			j = 0;
-			while (pipex->cmd[i][j])
-				free (pipex->cmd[i][j++]);
-			free (pipex->cmd[i][j]);
-		}
-		free (pipex->cmd[i]);
+		close(pipex->fds[i][0]);
+		close(pipex->fds[i][1]);
 		++i;
 	}
-	free (pipex->cmd);
 }
-
-void	ft_free_fds(t_pipex *pipex)
-{
-	int	i;
-
-	i = 0;
-	while (i < pipex->total_cmds - 1)
-		free (pipex->fds[i++]);
-	free (pipex->fds);
-}
-

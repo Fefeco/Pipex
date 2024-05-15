@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:56:37 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/15 17:09:22 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/15 18:42:27 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_create_process(t_pipex *pipex, int i)
 
 int	ft_create_pipes(t_pipex *pipex)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < pipex->total_pipes)

@@ -6,11 +6,11 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 13:06:22 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/16 20:59:26 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	ft_exit_clean(t_pipex *pipex)
 {
@@ -27,6 +27,8 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc < 5)
 		return (ft_putstr_fd("invalid number of arguments\n", 2), 1);
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+		ft_read_from_stdin(argv[2]);
 	pipex.total_cmds = argc - 3;
 	pipex.total_pipes = pipex.total_cmds - 1;
 	ft_init_cmds(argv, &pipex);

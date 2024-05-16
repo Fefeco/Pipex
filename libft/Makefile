@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 10:09:12 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/06 11:09:36 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/16 21:25:03 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ LIBFT_F=$(LIBFT_DIR)/ft_atoi.c \
 		$(LIBFT_DIR)/ft_strlcpy.c \
 		$(LIBFT_DIR)/ft_strlen.c \
 		$(LIBFT_DIR)/ft_strncmp.c \
+		$(LIBFT_DIR)/ft_strncmp_prot.c \
 		$(LIBFT_DIR)/ft_strnstr.c \
 		$(LIBFT_DIR)/ft_strrchr.c \
 		$(LIBFT_DIR)/ft_tolower.c \

@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/16 10:46:47 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/16 19:41:04 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ MAIN_BONUS=pipex_bonus.c
 
 SRC=get_path.c \
 	create_pipe.c \
+	create_process.c \
 	init.c \
 	free.c \
 	close_fds.c \

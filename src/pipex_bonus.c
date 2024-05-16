@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 10:32:55 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:27:43 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **env)
 	int		i;
 
 	if (argc < 5)
-		return (perror("INVALID NUMBER OF ARGUMENTS\n"), 1);
+		return (ft_putstr_fd("invalid number of arguments\n", 2), 1);
 	pipex.total_cmds = argc - 3;
 	pipex.total_pipes = pipex.total_cmds - 1;
 	ft_init_cmds(argv, &pipex);

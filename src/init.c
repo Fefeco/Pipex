@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:31:07 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 10:29:01 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:05:26 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	ft_init_paths(char **env, t_pipex *pipex)
 		tmp = ft_get_path(env, pipex->cmd[i][0]);
 		if (!tmp)
 		{
-			ft_wstderr (pipex->cmd[i][0]);
+			ft_putstr_fd("command not found: ", 2);
+			ft_putstr_fd(pipex->cmd[i][0], 2);
+			ft_putstr_fd("\n",2);
 			ft_free_cmds(pipex);
 			ft_free_array((void **)pipex->path);
 			exit(EXIT_FAILURE);

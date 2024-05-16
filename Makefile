@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/15 11:00:47 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/16 10:46:47 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,22 +21,29 @@ OBJ_DIR=objs/
 SRC_DIR=src/
 LIBFT_DIR=libft/
 
-SRC=pipex.c \
-	get_path.c \
+MAIN=pipex.c
+MAIN_BONUS=pipex_bonus.c
+
+SRC=get_path.c \
 	create_pipe.c \
 	init.c \
 	free.c \
 	close_fds.c \
 	pipex_utils.c
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
+MAIN_OBJ=$(patsubst %.c, $(OBJ_DIR)%.o, $(MAIN))
+MAIN_BONUS_OBJ=$(patsubst %.c, $(OBJ_DIR)%.o, $(MAIN_BONUS))
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 	@echo "===== READY ====="
 
-$(NAME): $(LIB) $(OBJS) Makefile
-	$(CC) $(FLAGS) $(LIB_FLAG) $(OBJS) -o $(NAME)
+$(NAME): $(LIB) $(MAIN_OBJ) $(OBJS) Makefile
+	$(CC) $(FLAGS) $(LIB_FLAG) $(MAIN_OBJ) $(OBJS) -o $(NAME)
+
+bonus: clean $(LIB) $(MAIN_BONUS_OBJ) $(OBJS) Makefile
+	$(CC) $(FLAGS) $(LIB_FLAG) $(MAIN_BONUS_OBJ) $(OBJS) -o $(NAME)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)

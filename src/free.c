@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 11:59:46 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/15 13:17:46 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/16 10:29:29 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,3 @@ void	ft_free_fds(t_pipex *pipex)
 		free (pipex->fds[i++]);
 	free (pipex->fds);
 }
-

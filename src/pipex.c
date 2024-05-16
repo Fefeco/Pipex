@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 13:00:04 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:05:31 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ int	main(int argc, char **argv, char **env)
 	ft_init_paths(env, &pipex);
 	ft_init_fds(&pipex);
 	ft_init_pids(&pipex);
-	if (ft_open_files(argc, argv, &pipex))
-		return (ft_exit_clean(&pipex), 1);
-	if (ft_create_pipes(&pipex))
+	if (ft_open_files(argc, argv, &pipex) || ft_create_pipes(&pipex))
 		return (ft_exit_clean(&pipex), 1);
 	i = 0;
 	while (i < pipex.total_cmds)

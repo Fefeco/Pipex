@@ -6,15 +6,22 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/15 13:45:40 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/18 13:28:11 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "ft_printf.h"
-#include "get_next_line.h"
-#include <stdio.h>
-#include <unistd.h>
+#ifndef PIPEX_H
+# define PIPEX_H
+# include "libft.h"
+# include "ft_printf.h"
+# include "get_next_line.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+
+# define ENOFILE "pipex: no such file or directory: "
+# define ENOAUTH "pipex: permission denied: "
+# define EOPENFD "pipex: error open file descriptor: "
 
 typedef struct s_pipex
 {
@@ -39,3 +46,4 @@ void	ft_init_pids(t_pipex *pipex);
 void	ft_free_cmds(t_pipex *pipex);
 void	ft_free_fds(t_pipex *pipex);
 void	ft_close_fds(t_pipex *pipex);
+#endif

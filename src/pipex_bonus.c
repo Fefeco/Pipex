@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 20:59:26 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/18 12:15:07 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,12 @@ int	main(int argc, char **argv, char **env)
 	if (argc < 5)
 		return (ft_putstr_fd("invalid number of arguments\n", 2), 1);
 	if (!ft_strncmp(argv[1], "here_doc", 8))
-		ft_read_from_stdin(argv[2]);
+	{
+		pipex.hd_stdin = ft_read_from_hd(argv[2]);
+		if (!pipex.hd_stdin)
+			return (1);
+		return (free (pipex.hd_stdin), 1);
+	}
 	pipex.total_cmds = argc - 3;
 	pipex.total_pipes = pipex.total_cmds - 1;
 	ft_init_cmds(argv, &pipex);

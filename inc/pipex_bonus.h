@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 20:55:30 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/18 12:12:50 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 typedef struct s_pipex
 {
 	char	***cmd;
+	char	**path;
+	char	*hd_stdin;
 	int		total_cmds;
 	int		total_pipes;
-	char	**path;
 	int		fd_in;
 	int		fd_out;
 	int		**fds;
@@ -39,4 +40,4 @@ void	ft_init_pids(t_pipex *pipex);
 void	ft_free_cmds(t_pipex *pipex);
 void	ft_free_fds(t_pipex *pipex);
 void	ft_close_fds(t_pipex *pipex);
-void	ft_read_from_stdin(char *delimiter);
+char	*ft_read_from_hd(char *delimiter);

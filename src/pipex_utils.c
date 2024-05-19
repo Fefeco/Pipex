@@ -28,7 +28,7 @@ int	ft_open_files(int argc, char **argv, t_pipex *pipex)
 	pipex->fd_in = open(argv[1], O_RDONLY);
 	if (pipex->fd_in == -1)
 		return (ft_wstderr(EOPENFD, argv[1]), 1);
-		if (access(argv[argc - 1], F_OK))
+	if (access(argv[argc - 1], F_OK))
 		pipex->fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT, 0644);
 	if (pipex->fd_out == -1)
 		return (close(pipex->fd_in), ft_wstderr(EOPENFD, argv[argc - 1]), 1);

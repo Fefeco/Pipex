@@ -26,7 +26,7 @@ void	ft_init_cmds(char **argv, t_pipex *pipex)
 	i = 0;
 	while (i != pipex->total_cmds)
 	{
-		tmp = ft_split(argv[i + 2], ' ');
+		tmp = ft_split(argv[i], ' ');
 		if (!tmp)
 		{
 			ft_free_cmds(pipex);

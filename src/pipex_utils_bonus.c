@@ -21,18 +21,27 @@ static void	ft_wstderr(char *err, char *file_name)
 
 int	ft_open_files(int argc, char **argv, t_pipex *pipex)
 {
-	if (access(argv[1], F_OK))
-		return (ft_wstderr(ENOFILE, argv[1]), 1);
-	if (access(argv[1], R_OK))
-		return (ft_wstderr(ENOAUTH, argv[1]), 1);
-	pipex->fd_in = open(argv[1], O_RDONLY);
-	if (pipex->fd_in == -1)
-		return (ft_wstderr(EOPENFD, argv[1]), 1);
+	int flags;
+
+	flags = (O_WRONLY | O_CREAT | O_APPEND);
+	if (!pipex->here_doc)
+	{
+		flags = (O_WRONLY | O_CREAT | O_TRUNC);
+		if (access(argv[1], F_OK))
+			return (ft_wstderr(ENOFILE, argv[1]), 1);
+		if (access(argv[1], R_OK))
+			return (ft_wstderr(ENOAUTH, argv[1]), 1);
+		pipex->fd_in = open(argv[1], O_RDONLY);
+		if (pipex->fd_in == -1)
+			return (ft_wstderr(EOPENFD, argv[1]), 1);
+	}
 	if (access(argv[argc - 1], F_OK))
-		pipex->fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT, 0644);
+	{
+		if (access(argv[argc - 1], W_OK))
+			return (close(pipex->fd_in), ft_wstderr(ENOAUTH, argv[argc - 1]), 1);
+	}
+	pipex->fd_out = open(argv[argc - 1], flags, 0666);
 	if (pipex->fd_out == -1)
 		return (close(pipex->fd_in), ft_wstderr(EOPENFD, argv[argc - 1]), 1);
-	if (access(argv[argc - 1], W_OK))
-		return (ft_wstderr(ENOAUTH, argv[argc - 1]), 1);
 	return (0);
 }

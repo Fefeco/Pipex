@@ -28,7 +28,9 @@ typedef struct s_pipex
 {
 	char	***cmd;
 	char	**path;
-	char	*hd_stdin;
+	char	*hd_in;
+	int		start_cmd;
+	int		here_doc;
 	int		total_cmds;
 	int		total_pipes;
 	int		fd_in;

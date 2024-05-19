@@ -19,6 +19,17 @@ void	ft_exit_clean(t_pipex *pipex)
 	ft_free_fds(pipex);
 	free(pipex->pid);
 }
+void	ft_set_params_for_hd(char *flag, t_pipex *pipex)
+{
+	pipex->hd_in = ft_read_from_hd(flag);
+	if (!pipex->hd_in)
+		exit (EXIT_FAILURE);
+	pipex->total_cmds -= 1;
+	pipex->total_pipes += 1;
+	pipex->start_cmd += 1;	
+	pipex->here_doc = 1;
+}
+
 
 int	main(int argc, char **argv, char **env)
 {
@@ -27,16 +38,13 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc < 5)
 		return (ft_putstr_fd("invalid number of arguments\n", 2), 1);
-	if (!ft_strncmp(argv[1], "here_doc", 8))
-	{
-		pipex.hd_stdin = ft_read_from_hd(argv[2]);
-		if (!pipex.hd_stdin)
-			return (1);
-		return (free (pipex.hd_stdin), 1);
-	}
 	pipex.total_cmds = argc - 3;
 	pipex.total_pipes = pipex.total_cmds - 1;
-	ft_init_cmds(argv, &pipex);
+	pipex.start_cmd = 2;	
+	pipex.here_doc = 0;
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+		ft_set_params_for_hd(argv[2], &pipex);
+	ft_init_cmds(argv + pipex.start_cmd, &pipex);
 	ft_init_paths(env, &pipex);
 	ft_init_fds(&pipex);
 	ft_init_pids(&pipex);
@@ -45,6 +53,8 @@ int	main(int argc, char **argv, char **env)
 	i = 0;
 	while (i < pipex.total_cmds)
 		ft_create_process(&pipex, i++);
+	close(pipex.fd_in);
+    close(pipex.fd_out);
 	ft_exit_clean(&pipex);
 	return (0);
 }

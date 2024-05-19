@@ -17,7 +17,7 @@ void	ft_close_fds(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (i < pipex->total_cmds - 2)
+	while (i < pipex->total_pipes)
 	{
 		close(pipex->fds[i][0]);
 		close(pipex->fds[i][1]);

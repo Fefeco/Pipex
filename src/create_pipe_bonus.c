@@ -19,8 +19,9 @@ int	ft_create_pipes(t_pipex *pipex)
 	i = 0;
 	while (i < pipex->total_pipes)
 	{
-		if (pipe(pipex->fds[i++]) == -1)
+		if (pipe(pipex->fds[i]) == -1)
 		{
+		ft_printf("pipas totales %d\n", pipex->total_pipes);
 			if (i == 0)
 				return (1);
 			while (i >= 0)
@@ -31,6 +32,7 @@ int	ft_create_pipes(t_pipex *pipex)
 			}
 			return (1);
 		}
+		++i;
 	}
 	return (0);
 }

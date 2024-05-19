@@ -49,10 +49,10 @@ all: $(NAME)
 	@echo "===== READY ====="
 
 $(NAME): $(LIB) $(OBJS) Makefile
-	$(CC) $(FLAGS) $(LIB_FLAG) $(OBJS) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS) $(LIB_FLAG) -o $(NAME)
 
 bonus: $(LIB) $(OBJS_BONUS) Makefile
-	$(CC) $(FLAGS) $(LIB_FLAG) $(OBJS_BONUS) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS_BONUS) $(LIB_FLAG) -o $(NAME)
 	@touch bonus
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c

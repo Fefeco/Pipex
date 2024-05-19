@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 
 # define ENOFILE "pipex: no such file or directory: "
 # define ENOAUTH "pipex: permission denied: "

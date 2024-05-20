@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/18 13:26:03 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:00:29 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,13 @@
 # define ENOFILE "pipex: no such file or directory: "
 # define ENOAUTH "pipex: permission denied: "
 # define EOPENFD "pipex: error open file descriptor: "
+# define EWRARGS "pipex: invalid number of arguments\n"
 
 typedef struct s_pipex
 {
 	char	***cmd;
 	char	**path;
-	char	*hd_in;
-	int		start_cmd;
-	int		here_doc;
-	int		total_cmds;
-	int		total_pipes;
+	char	*std_in;
 	int		fd_in;
 	int		fd_out;
 	int		**fds;
@@ -40,7 +37,7 @@ typedef struct s_pipex
 }	t_pipex;
 
 char	*ft_get_path(char **env, char *cmd);
-int		ft_open_files(int argc, char **argv, t_pipex *pipex);
+int		ft_open_file(char *file_name, int mode);
 int		ft_create_pipes(t_pipex *pipex);
 int		ft_create_process(t_pipex *pipex, int i);
 void	ft_init_cmds(char **argv, t_pipex *pipex);

@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 11:03:27 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:46:44 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,32 @@ void	ft_exit_clean(t_pipex *pipex)
 	free(pipex->pid);
 }
 
-void	ft_set_params_for_hd(char *delimiter, t_pipex *pipex)
-{
-	pipex->hd_in = ft_read_from_hd(delimiter);
-	if (!pipex->hd_in)
-		exit (EXIT_FAILURE);
-	pipex->total_cmds -= 1;
-	pipex->total_pipes += 1;
-	pipex->start_cmd += 1;
-	pipex->here_doc = 1;
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
 	int		i;
+	int		mode;
 
 	if (argc < 5)
-		return (ft_putstr_fd("pipex: invalid number of arguments\n", 2), 1);
-	pipex.total_cmds = argc - 3;
-	pipex.total_pipes = pipex.total_cmds - 1;
-	pipex.start_cmd = 2;
-	pipex.here_doc = 0;
+		return (ft_putstr_fd(EWRARGS, 2), 1);
+	mode = (O_WRONLY | O_CREATE);
 	if (!ft_strncmp(argv[1], "here_doc", 8))
-		ft_set_params_for_hd(argv[2], &pipex);
+	{
+		pipex.fd_out = ft_open_file(argv[argc - 1], mode | O_APPEND);
+		pipex.std_in = ft_read_from_file(STDIN_FILENO, argv[2]);
+	}
+	else
+	{
+		pipex.fd_out = ft_open_file(argv[argc - 1], mode | O_TRUNC);
+		pipex.fd_in = ft_open_file(argv[1], O_RDONLY);
+		pipex.std_in = ft_read_from_file(pipex.fd_in, NULL);
+	}
+
 	ft_init_cmds(argv + pipex.start_cmd, &pipex);
 	ft_init_paths(env, &pipex);
 	ft_init_fds(&pipex);
 	ft_init_pids(&pipex);
-	if (ft_open_files(argc, argv, &pipex) || ft_create_pipes(&pipex))
+	if n_files(argc, argv, &pipex) || ft_create_pipes(&pipex))
 		return (ft_exit_clean(&pipex), 1);
 	i = 0;
 	while (i < pipex.total_cmds)

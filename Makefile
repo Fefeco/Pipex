@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/16 21:07:32 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/20 14:13:48 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ SRC_BONUS=get_path_bonus.c \
 		  init_bonus.c \
 		  free_bonus.c \
 		  close_fds_bonus.c \
-		  here_doc_bonus.c \
+		  read_bonus.c \
 		  pipex_utils_bonus.c
 
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))

@@ -6,19 +6,19 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 11:59:46 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 20:44:20 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:45:22 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_free_cmds(t_pipex *pipex)
+void	ft_free_cmds(t_pipex *pipex, int len)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i <= pipex->total_cmds)
+	while (i <= len)
 	{
 		if (pipex->cmd[i])
 		{

@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:31:07 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 14:56:48 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:04:28 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,21 +81,25 @@ void	ft_init_paths(char **env, t_pipex *pipex)
 void	ft_init_fds(t_pipex *pipex)
 {
 	int	i;
+	int	len;
 
-	pipex->fds = (int **)malloc(sizeof(int **) * (pipex->total_pipes));
+	len = 0;
+	while (pipex->cmd[len])
+		++len;
+	pipex->fds = (int **)malloc(sizeof(int **) * (len));
 	if (!pipex->fds)
 	{
-		ft_free_cmds(pipex);
+		ft_free_cmds(pipex, len);
 		ft_free_array((void **)pipex->path);
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
-	while (i < pipex->total_pipes)
+	while (i < len)
 	{
 		pipex->fds[i] = (int *)malloc(sizeof(int) * 2);
 		if (!pipex->fds[i])
 		{
-			ft_free_fds(pipex);
+			ft_free_fds(pipex, len);
 			exit(EXIT_FAILURE);
 		}
 		++i;

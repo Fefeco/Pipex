@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 14:45:42 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:06:41 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_init_paths(char **env, t_pipex *pipex);
 void	ft_init_fds(t_pipex *pipex);
 void	ft_init_pids(t_pipex *pipex);
 void	ft_free_cmds(t_pipex *pipex, int len);
-void	ft_free_fds(t_pipex *pipex);
+void	ft_free_fds(t_pipex *pipex, int len);
 void	ft_close_fds(t_pipex *pipex);
 char	*ft_read_from_file(int fd, char *stop);
 #endif

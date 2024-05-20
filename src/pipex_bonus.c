@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 14:16:47 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:14:51 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 void	ft_exit_clean(t_pipex *pipex)
 {
-	ft_free_cmds(pipex);
+	int	len;
+
+	len = 0;
+	while (pipex->cmd[len])
+		++len;
+	ft_free_cmds(pipex, len);
 	ft_free_array((void **)pipex->path);
-	ft_free_fds(pipex);
+	ft_free_fds(pipex, len);
 	free(pipex->pid);
 }
 
@@ -45,8 +50,8 @@ int	main(int argc, char **argv, char **env)
 	ft_init_paths(env, &pipex);
 	ft_init_fds(&pipex);
 	ft_init_pids(&pipex);
-//	if (ft_create_pipes(&pipex))
-//		return (ft_exit_clean(&pipex), 1);
+	if (ft_create_pipes(&pipex))
+		return (ft_exit_clean(&pipex), 1);
 	i = 0;
 //	while (i < pipex.total_cmds)
 //		ft_create_process(&pipex, i++);

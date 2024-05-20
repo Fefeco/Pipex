@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/18 14:13:51 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 10:11:52 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_wstderr(char *err, char *file_name)
 
 int	ft_open_files(int argc, char **argv, t_pipex *pipex)
 {
-	int flags;
+	int	flags;
 
 	flags = (O_WRONLY | O_CREAT | O_APPEND);
 	if (!pipex->here_doc)

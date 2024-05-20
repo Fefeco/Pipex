@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/18 12:15:07 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:03:27 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void	ft_exit_clean(t_pipex *pipex)
 	ft_free_fds(pipex);
 	free(pipex->pid);
 }
-void	ft_set_params_for_hd(char *flag, t_pipex *pipex)
+
+void	ft_set_params_for_hd(char *delimiter, t_pipex *pipex)
 {
-	pipex->hd_in = ft_read_from_hd(flag);
+	pipex->hd_in = ft_read_from_hd(delimiter);
 	if (!pipex->hd_in)
 		exit (EXIT_FAILURE);
 	pipex->total_cmds -= 1;
 	pipex->total_pipes += 1;
-	pipex->start_cmd += 1;	
+	pipex->start_cmd += 1;
 	pipex->here_doc = 1;
 }
-
 
 int	main(int argc, char **argv, char **env)
 {
@@ -37,10 +37,10 @@ int	main(int argc, char **argv, char **env)
 	int		i;
 
 	if (argc < 5)
-		return (ft_putstr_fd("invalid number of arguments\n", 2), 1);
+		return (ft_putstr_fd("pipex: invalid number of arguments\n", 2), 1);
 	pipex.total_cmds = argc - 3;
 	pipex.total_pipes = pipex.total_cmds - 1;
-	pipex.start_cmd = 2;	
+	pipex.start_cmd = 2;
 	pipex.here_doc = 0;
 	if (!ft_strncmp(argv[1], "here_doc", 8))
 		ft_set_params_for_hd(argv[2], &pipex);
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **env)
 	while (i < pipex.total_cmds)
 		ft_create_process(&pipex, i++);
 	close(pipex.fd_in);
-    close(pipex.fd_out);
+	close(pipex.fd_out);
 	ft_exit_clean(&pipex);
 	return (0);
 }

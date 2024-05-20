@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:31:07 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 14:44:22 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:51:59 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	ft_init_cmds(char **argv, t_pipex *pipex)
 	}
 }
 
-static void	ft_init_paths_aux(t_pipex *pipex, int i)
+static void	ft_init_paths_aux(t_pipex *pipex, int i, int len)
 {
 	ft_putstr_fd("command not found: ", 2);
 	ft_putstr_fd(pipex->cmd[i][0], 2);
 	ft_putstr_fd("\n", 2);
-	ft_free_cmds(pipex);
+	ft_free_cmds(pipex, len);
 	ft_free_array((void **)pipex->path);
 	exit(EXIT_FAILURE);
 }
@@ -54,20 +54,24 @@ void	ft_init_paths(char **env, t_pipex *pipex)
 {
 	char	*tmp;
 	int		i;
+	int		len;
 
-	pipex->path = (char **)malloc(sizeof(char **) * (pipex->total_cmds + 1));
+	len = 0;
+	while (pipex->cmd[len])
+		++len;
+	pipex->path = (char **)malloc(sizeof(char **) * (len));
 	if (!pipex->path)
 	{
-		ft_free_cmds(pipex);
+		ft_free_cmds(pipex, len);
 		exit(EXIT_FAILURE);
 	}
-	pipex->path[pipex->total_cmds] = NULL;
+	pipex->path[len] = NULL;
 	i = 0;
-	while (i < pipex->total_cmds)
+	while (i < len)
 	{
 		tmp = ft_get_path(env, pipex->cmd[i][0]);
 		if (!tmp)
-			ft_init_paths_aux(pipex, i);
+			ft_init_paths_aux(pipex, i, len);
 		pipex->path[i] = tmp;
 		tmp = NULL;
 		++i;

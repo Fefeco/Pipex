@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:31:07 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 15:04:28 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:09:37 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,17 @@ void	ft_init_fds(t_pipex *pipex)
 
 void	ft_init_pids(t_pipex *pipex)
 {
-	pipex->pid = (int *)malloc(sizeof(int *) * pipex->total_cmds);
+	int	len;
+
+	len = 0;
+	while (pipex->cmd[len])
+		++len;
+	pipex->pid = (int *)malloc(sizeof(int *) * len);
 	if (!pipex->pid)
 	{
-		ft_free_cmds(pipex);
+		ft_free_cmds(pipex, len);
 		ft_free_array((void **)pipex->path);
-		ft_free_fds(pipex);
+		ft_free_fds(pipex, len);
 		exit(EXIT_FAILURE);
 	}
 }

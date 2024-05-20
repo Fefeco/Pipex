@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:31:07 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 14:51:59 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:56:48 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_init_cmds(char **argv, t_pipex *pipex)
 	len = 0;
 	while (argv[len])
 		++len;
-	pipex->cmd = (char ***)malloc(sizeof(char ***) * len);
+	pipex->cmd = (char ***)malloc(sizeof(char ***) * (len + 1));
 	if (!pipex->cmd)
 		exit(EXIT_FAILURE);
 	i = 0;
@@ -59,7 +59,7 @@ void	ft_init_paths(char **env, t_pipex *pipex)
 	len = 0;
 	while (pipex->cmd[len])
 		++len;
-	pipex->path = (char **)malloc(sizeof(char **) * (len));
+	pipex->path = (char **)malloc(sizeof(char **) * (len + 1));
 	if (!pipex->path)
 	{
 		ft_free_cmds(pipex, len);

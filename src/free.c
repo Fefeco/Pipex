@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 11:59:46 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 10:29:29 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:28:30 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_free_cmds(t_pipex *pipex)
 	int	j;
 
 	i = 0;
-	while (i <= pipex->total_cmds)
+	while (i < pipex->cmd_len)
 	{
 		if (pipex->cmd[i])
 		{
@@ -38,7 +38,7 @@ void	ft_free_fds(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (i < pipex->total_cmds - 1)
+	while (i < pipex->cmd_len)
 		free (pipex->fds[i++]);
 	free (pipex->fds);
 }

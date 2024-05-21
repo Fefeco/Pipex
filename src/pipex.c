@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 13:05:31 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:54:41 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,20 @@ int	main(int argc, char **argv, char **env)
 	int		i;
 
 	if (argc != 5)
-		return (ft_putstr_fd("Invalid number of arguments\n", 2), 1);
-	pipex.total_cmds = argc - 3;
-	pipex.total_pipes = pipex.total_cmds - 1;
-	ft_init_cmds(argv, &pipex);
+		return (ft_putstr_fd(EWRARGS, 2), 1);
+	pipex.fd_out = ft_open_file(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC);
+	pipex.fd_in = ft_open_file(argv[1], O_RDONLY);
+	pipex.std_in = ft_read_from_file(pipex.fd_in);
+	ft_init_cmds(argv + 2, &pipex);
 	ft_init_paths(env, &pipex);
 	ft_init_fds(&pipex);
 	ft_init_pids(&pipex);
-	if (ft_open_files(argc, argv, &pipex) || ft_create_pipes(&pipex))
+	if (ft_create_pipes(&pipex))
 		return (ft_exit_clean(&pipex), 1);
+	write(pipex.fds[0][1], pipex.std_in, ft_strlen(pipex.std_in));
+	free (pipex.std_in);
 	i = 0;
-	while (i < pipex.total_cmds)
+	while (i < pipex.cmd_len)
 		ft_create_process(&pipex, i++);
 	ft_exit_clean(&pipex);
 	return (0);

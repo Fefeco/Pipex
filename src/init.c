@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:31:07 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 12:21:27 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:36:41 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 void	ft_init_cmds(char **argv, t_pipex *pipex)
 {
-	char	**tmp;
 	int		i;
 
-	pipex->cmd = (char ***)malloc(sizeof(char ***) * (pipex->total_cmds + 1));
+	pipex->cmd_len = 0;
+	while (argv[pipex->cmd_len + 1])
+		pipex->cmd_len++;
+	pipex->cmd = (char ***)malloc(sizeof(char ***) * (pipex->cmd_len + 1));
 	if (!pipex->cmd)
 		exit(EXIT_FAILURE);
 	i = 0;
-	while (i <= pipex->total_cmds)
+	while (i < pipex->cmd_len)
 		pipex->cmd[i++] = NULL;
 	i = 0;
-	while (i != pipex->total_cmds)
+	while (i < pipex->cmd_len)
 	{
-		tmp = ft_split(argv[i + 2], ' ');
-		if (!tmp)
+		pipex->cmd[i] = ft_split(argv[i], ' ');
+		if (!pipex->cmd[i])
 		{
 			ft_free_cmds(pipex);
 			break ;
 		}
-		pipex->cmd[i] = tmp;
-		tmp = NULL;
 		++i;
 	}
 }
@@ -52,16 +52,18 @@ void	ft_init_paths(char **env, t_pipex *pipex)
 {
 	char	*tmp;
 	int		i;
+	int		len;
 
-	pipex->path = (char **)malloc(sizeof(char **) * (pipex->total_cmds + 1));
+	len = pipex->cmd_len;
+	pipex->path = (char **)malloc(sizeof(char **) * (len + 1));
 	if (!pipex->path)
 	{
 		ft_free_cmds(pipex);
 		exit(EXIT_FAILURE);
 	}
-	pipex->path[pipex->total_cmds] = NULL;
+	pipex->path[len] = NULL;
 	i = 0;
-	while (i < pipex->total_cmds)
+	while (i < len)
 	{
 		tmp = ft_get_path(env, pipex->cmd[i][0]);
 		if (!tmp)
@@ -75,8 +77,10 @@ void	ft_init_paths(char **env, t_pipex *pipex)
 void	ft_init_fds(t_pipex *pipex)
 {
 	int	i;
+	int	len;
 
-	pipex->fds = (int **)malloc(sizeof(int **) * (pipex->total_pipes));
+	len = pipex->cmd_len;
+	pipex->fds = (int **)malloc(sizeof(int **) * (len));
 	if (!pipex->fds)
 	{
 		ft_free_cmds(pipex);
@@ -84,7 +88,7 @@ void	ft_init_fds(t_pipex *pipex)
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
-	while (i < pipex->total_pipes)
+	while (i < len)
 	{
 		pipex->fds[i] = (int *)malloc(sizeof(int) * 2);
 		if (!pipex->fds[i])
@@ -98,7 +102,10 @@ void	ft_init_fds(t_pipex *pipex)
 
 void	ft_init_pids(t_pipex *pipex)
 {
-	pipex->pid = (int *)malloc(sizeof(int *) * pipex->total_cmds);
+	int	len;
+
+	len = pipex->cmd_len;
+	pipex->pid = (int *)malloc(sizeof(int *) * len);
 	if (!pipex->pid)
 	{
 		ft_free_cmds(pipex);

@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 18:56:37 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/16 19:41:15 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:25:29 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	ft_create_pipes(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (i < pipex->total_pipes)
+	while (i < pipex->cmd_len)
 	{
-		if (pipe(pipex->fds[i++]) == -1)
+		if (pipe(pipex->fds[i]) == -1)
 		{
 			if (i == 0)
 				return (1);
@@ -31,6 +31,7 @@ int	ft_create_pipes(t_pipex *pipex)
 			}
 			return (1);
 		}
+		++i;
 	}
 	return (0);
 }

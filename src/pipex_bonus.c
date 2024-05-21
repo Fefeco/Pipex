@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/21 13:37:54 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:55:13 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,28 @@ void	ft_exit_clean(t_pipex *pipex)
 	free(pipex->pid);
 }
 
+static int	aux(t_pipex *pipex, char ***argv, char **env)
+{
+	int	i;
+
+	ft_init_cmds(*argv + 2, pipex);
+	ft_init_paths(env, pipex);
+	ft_init_fds(pipex);
+	ft_init_pids(pipex);
+	if (ft_create_pipes(pipex))
+		return (ft_exit_clean(pipex), 1);
+	write(pipex->fds[0][1], pipex->std_in, ft_strlen(pipex->std_in));
+	free (pipex->std_in);
+	i = 0;
+	while (i < pipex->cmd_len)
+		ft_create_process(pipex, i++);
+	ft_exit_clean(pipex);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
-	int		i;
 	int		mode;
 
 	if (argc < 5)
@@ -41,17 +59,5 @@ int	main(int argc, char **argv, char **env)
 		pipex.fd_in = ft_open_file(argv[1], O_RDONLY);
 		pipex.std_in = ft_read_from_file(pipex.fd_in, NULL);
 	}
-	ft_init_cmds(argv + 2, &pipex);
-	ft_init_paths(env, &pipex);
-	ft_init_fds(&pipex);
-	ft_init_pids(&pipex);
-	if (ft_create_pipes(&pipex))
-		return (ft_exit_clean(&pipex), 1);
-	write(pipex.fds[0][1], pipex.std_in, ft_strlen(pipex.std_in));
-	free (pipex.std_in);
-	i = 0;
-	while (i < pipex.cmd_len)
-		ft_create_process(&pipex, i++);
-	ft_exit_clean(&pipex);
-	return (0);
+	return (aux(&pipex, &argv, env));
 }

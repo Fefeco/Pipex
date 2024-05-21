@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 15:14:51 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:37:54 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,9 @@
 
 void	ft_exit_clean(t_pipex *pipex)
 {
-	int	len;
-
-	len = 0;
-	while (pipex->cmd[len])
-		++len;
-	ft_free_cmds(pipex, len);
+	ft_free_cmds(pipex);
 	ft_free_array((void **)pipex->path);
-	ft_free_fds(pipex, len);
+	ft_free_fds(pipex);
 	free(pipex->pid);
 }
 
@@ -52,11 +47,11 @@ int	main(int argc, char **argv, char **env)
 	ft_init_pids(&pipex);
 	if (ft_create_pipes(&pipex))
 		return (ft_exit_clean(&pipex), 1);
+	write(pipex.fds[0][1], pipex.std_in, ft_strlen(pipex.std_in));
+	free (pipex.std_in);
 	i = 0;
-//	while (i < pipex.total_cmds)
-//		ft_create_process(&pipex, i++);
-	close(pipex.fd_in);
-	close(pipex.fd_out);
+	while (i < pipex.cmd_len)
+		ft_create_process(&pipex, i++);
 	ft_exit_clean(&pipex);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/20 13:24:23 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:45:44 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	ft_open_file(char *file_name, int mode)
 			ft_wstderr(EOPENFD, file_name);
 		return (fd);
 	}
-	if (access(file_name, F_OK))
+	if (!access(file_name, F_OK))
 		if (access(file_name, W_OK))
 			ft_wstderr(ENOAUTH, file_name);
-	fd = open(file_name, mode, 0666);
+	fd = open(file_name, mode, 0644);
 	if (fd == -1)
 		ft_wstderr(EOPENFD, file_name);
 	return (fd);

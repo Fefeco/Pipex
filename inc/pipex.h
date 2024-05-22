@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/21 14:51:48 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:53:08 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_pipex
 	char	***cmd;
 	char	**path;
 	char	*std_in;
+	char	*errors;
 	int		cmd_len;
 	int		fd_in;
 	int		fd_out;
@@ -38,7 +39,7 @@ typedef struct s_pipex
 }	t_pipex;
 
 char	*ft_get_path(char **env, char *cmd);
-int		ft_open_file(char *file_name, int mode);
+void	ft_open_files(t_pipex *pipex, char **argv, int argc);
 int		ft_create_pipes(t_pipex *pipex);
 int		ft_create_process(t_pipex *pipex, int i);
 void	ft_init_cmds(char **argv, t_pipex *pipex);

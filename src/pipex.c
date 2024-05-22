@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/21 14:54:41 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:45:21 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_exit_clean(t_pipex *pipex)
 	ft_free_array((void **)pipex->path);
 	ft_free_fds(pipex);
 	free(pipex->pid);
+	free(pipex->errors);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -27,8 +28,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 5)
 		return (ft_putstr_fd(EWRARGS, 2), 1);
-	pipex.fd_out = ft_open_file(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC);
-	pipex.fd_in = ft_open_file(argv[1], O_RDONLY);
+	ft_open_files(&pipex, argv, argc);
 	pipex.std_in = ft_read_from_file(pipex.fd_in);
 	ft_init_cmds(argv + 2, &pipex);
 	ft_init_paths(env, &pipex);

@@ -6,40 +6,52 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/21 14:48:05 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/22 21:09:03 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	ft_wstderr(char *err, char *file_name)
+static void	ft_wstderr(char *err)
 {
 	ft_putstr_fd(err, 2);
-	ft_putstr_fd(file_name, 2);
 	write(2, "\n", 1);
 	exit(EXIT_FAILURE);
 }
 
-int	ft_open_file(char *file_name, int mode)
+void	ft_save_errors(t_pipex *pipex, char *error, char *name)
 {
-	int	fd;
+	if (!pipex->errors)
+		pipex->errors = ft_strdup(error);
+	else
+		pipex->errors = ft_strjoin(pipex->errors, ft_strdup(error));
+	if (name)
+		pipex->errors = ft_strjoin(pipex->errors, ft_strdup(name));
+	pipex->errors = ft_strjoin(pipex->errors, ft_strdup("\n"));
+}
 
-	if (mode == O_RDONLY)
+void	ft_open_files(t_pipex *pipex, char **argv, int argc)
+{
+	pipex->errors = NULL;
+	if (access(argv[1], F_OK))
+		ft_save_errors(pipex, ENOFILE, argv[1]);
+	else if (access(argv[1], R_OK))
+		ft_save_errors(pipex, ENOAUTH, argv[1]);
+	else
+		pipex->fd_in = open(argv[1], O_RDONLY);
+	if (!access(argv[argc - 1], F_OK))
 	{
-		if (access(file_name, F_OK))
-			ft_wstderr(ENOFILE, file_name);
-		if (access(file_name, R_OK))
-			ft_wstderr(ENOAUTH, file_name);
-		fd = open(file_name, mode);
-		if (fd == -1)
-			ft_wstderr(EOPENFD, file_name);
-		return (fd);
+		if (access(argv[argc - 1], W_OK))
+			ft_save_errors(pipex, ENOAUTH, argv[argc - 1]);
 	}
-	if (!access(file_name, F_OK))
-		if (access(file_name, W_OK))
-			ft_wstderr(ENOAUTH, file_name);
-	fd = open(file_name, mode, 0644);
-	if (fd == -1)
-		ft_wstderr(EOPENFD, file_name);
-	return (fd);
+	else
+		pipex->fd_out = open(argv[argc - 1], O_WRONLY
+				| O_CREAT | O_TRUNC, 0644);
+	if (pipex->fd_in == -1 | pipex->fd_out == -1)
+		ft_wstderr(EOPENFD);
+	if (!pipex->errors)
+		return ;
+	ft_putstr_fd(pipex->errors, 2);
+	free (pipex->errors);
+	exit(EXIT_FAILURE);
 }

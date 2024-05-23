@@ -6,41 +6,52 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/23 13:45:05 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/23 19:13:01 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	ft_wstderr(char *err)
+void	ft_save_errors(char *error, char *cause, t_pipex *pipex)
 {
-	ft_putstr_fd(err, 2);
-	write(2, "\n", 1);
-	exit(EXIT_FAILURE);
+	char	*full_error;
+
+	full_error = ft_strjoin(ft_strdup(error), ft_strdup(cause));
+	full_error = ft_strjoin(full_error, ft_strdup("\n"));
+	if (pipex->errors)
+		pipex->errors = ft_strjoin(pipex->errors, full_error);
+	else
+		pipex->errors = full_error;
 }
 
-void	ft_open_files(t_pipex *pipex, char **argv, int argc)
+int	ft_open_fd_in(char *file_name, int mode, t_pipex *pipex)
 {
-	pipex->errors = NULL;
-	if (access(argv[1], F_OK))
-		ft_save_errors(ENOFILE, argv[1], pipex);
-	else if (access(argv[1], R_OK))
-		ft_save_errors(ENOAUTH, argv[1], pipex);
+	int	fd;
+
+	if (access(file_name, F_OK))
+		ft_save_errors(ENOFILE, file_name, pipex);
+	else if (access(file_name, R_OK))
+		ft_save_errors(ENOAUTH, file_name, pipex);
 	else
-		pipex->fd_in = open(argv[1], O_RDONLY);
-	if (!access(argv[argc - 1], F_OK))
 	{
-		if (access(argv[argc - 1], W_OK))
-			ft_save_errors(ENOAUTH, argv[argc - 1], pipex);
+		fd = open(file_name, mode);
+		if (fd != -1)
+			return (fd);
+		perror("Error function open()");
 	}
-	else
-		pipex->fd_out = open(argv[argc - 1], O_WRONLY
-				| O_CREAT | O_TRUNC, 0644);
-	if (pipex->fd_in == -1 || pipex->fd_out == -1)
-		ft_wstderr(EOPENFD);
-	if (!pipex->errors)
-		return ;
-	ft_putstr_fd(pipex->errors, 2);
-	free (pipex->errors);
-	exit(EXIT_FAILURE);
+	return (-1);
+}
+
+int	ft_open_fd_out(char *file_name, int mode, t_pipex *pipex)
+{
+	int	fd;
+
+	if (!access(file_name, F_OK))
+		if (access(file_name, W_OK))
+			return (ft_save_errors(ENOAUTH, file_name, pipex), -1);
+	fd = open(file_name, mode);
+	if (fd != -1)
+		return (fd);
+	perror("Error function open()");
+	return (-1);
 }

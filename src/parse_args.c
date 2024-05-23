@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:58:09 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/23 14:27:01 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:39:49 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,24 @@ int	ft_open_fin(char *file_name, int mode, t_pipex *pipex)
 	return (-1);
 }
 
+int	ft_open_fout(char *file_name, int mode, t_pipex *pipex)
+{
+	int	fd;
+
+	if (!access(file_name, F_OK))
+		if (access(file_name, W_OK))
+			return (ft_save_errors(ENOAUTH, file_name, pipex), -1);
+	fd = open(file_name, mode);
+	if (fd != -1)
+		return (fd);
+	perror("Error function open()");
+	return (-1);
+}
+
 void	ft_free_cmd_err_path(t_pipex *pipex)
 {
 	free (pipex->errors);
-	free(pipex->path);
+	ft_free_array ((void **)pipex->path);
 	ft_free_cmds(pipex);
 }
 
@@ -62,9 +76,14 @@ void	ft_check_cmd(char *cmd, char **env, t_pipex *pipex)
 		ft_free_cmd_err_path(pipex);
 		exit (EXIT_FAILURE);
 	}
-	path = ft_get_path(env, tmp[0]);
+	if (tmp[0][0] == '/')
+		path = ft_strdup(tmp[0]);
+	else
+		path = ft_get_path(env, tmp[0]);
 	if (!path)
 		ft_save_errors(ECMDNOF, tmp[0], pipex);
+	else if (access(path, X_OK))
+		ft_save_errors(ENOAUTH, tmp[0], pipex);
 	i = 0;
 	while (pipex->path[i])
 		i++;
@@ -77,17 +96,14 @@ int	ft_alloc_cmd_err_path(t_pipex *pipex, int cmd_count)
 	int	i;
 
 	pipex->cmd_len = cmd_count;
-	pipex->errors = (char *)malloc(sizeof(char *) * 1);
-	if (!pipex->errors)
-		return (1);
 	pipex->errors = NULL;
 	pipex->path = (char **)malloc(sizeof(char **) * (cmd_count + 1));
 	if (!pipex->path)
-		return (free (pipex->errors), 1);
+		return (1);
 	pipex->path[cmd_count] = NULL;
 	pipex->cmd = (char ***)malloc(sizeof(char ***) * (cmd_count + 1));
 	if (!pipex->cmd)
-		return (free (pipex->errors), free(pipex->path), 1);
+		return (free (pipex->path), 1);
 	i = 0;
 	while (i <= cmd_count)
 		pipex->cmd[i++] = NULL;
@@ -105,15 +121,15 @@ int	ft_parse_args(t_pipex *pipex, char **argv, int cmd_count, char **env)
 	pipex->fd_in = ft_open_fin(argv[i++], O_RDONLY, pipex);
 	if (pipex->fd_in != -1)
 		ft_check_cmd(argv[i], env, pipex);
+	++i;
 	while (i < cmd_count - 1)
-		ft_check_cmd(argv[++i], env, pipex);
-	
+		ft_check_cmd(argv[i++], env, pipex);
 	mode = (O_WRONLY | O_CREAT | O_TRUNC);
-/*	pipex->fd_out = ft_open_fout(argv[i + 1], mode, pipex->errors);
+	pipex->fd_out = ft_open_fout(argv[i + 1], mode, pipex);
 	if (pipex->fd_out != -1)
-		ft_check_cmd(argv[i], env, pipex);*/
+		ft_check_cmd(argv[i], env, pipex);
 	if (!pipex->errors)
-		return (free(pipex->errors), 0);
+		return (0);
 	ft_putstr_fd(pipex->errors, 2);
 	return (ft_free_cmd_err_path(pipex), 1);
 }

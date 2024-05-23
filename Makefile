@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/21 14:51:09 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/23 13:25:09 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC=get_path.c \
 	init.c \
 	free.c \
 	close_fds.c \
+	parse_args.c \
 	read.c \
 	pipex_utils.c
 

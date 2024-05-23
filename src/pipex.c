@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/22 20:45:21 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:59:05 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_exit_clean(t_pipex *pipex)
 	ft_free_array((void **)pipex->path);
 	ft_free_fds(pipex);
 	free(pipex->pid);
-	free(pipex->errors);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -28,10 +27,12 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 5)
 		return (ft_putstr_fd(EWRARGS, 2), 1);
-	ft_open_files(&pipex, argv, argc);
+	if (ft_parse_args(&pipex, ++argv, argc - 3, env))
+		exit(EXIT_FAILURE);
+//	ft_open_files(&pipex, argv, argc);
 	pipex.std_in = ft_read_from_file(pipex.fd_in);
-	ft_init_cmds(argv + 2, &pipex);
-	ft_init_paths(env, &pipex);
+//	ft_init_cmds(argv + 2, &pipex);
+//	ft_init_paths(env, &pipex);
 	ft_init_fds(&pipex);
 	ft_init_pids(&pipex);
 	if (ft_create_pipes(&pipex))

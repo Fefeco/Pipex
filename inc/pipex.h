@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/22 20:53:08 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:46:01 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/wait.h>
 
 # define ENOFILE "pipex: no such file or directory: "
+# define ECMDNOF "pipex: command not found: "
 # define ENOAUTH "pipex: permission denied: "
 # define EOPENFD "pipex: error open file descriptor: "
 # define EWRARGS "pipex: invalid number of arguments\n"
@@ -31,6 +32,7 @@ typedef struct s_pipex
 	char	**path;
 	char	*std_in;
 	char	*errors;
+	int		group;
 	int		cmd_len;
 	int		fd_in;
 	int		fd_out;
@@ -50,4 +52,6 @@ void	ft_free_cmds(t_pipex *pipex);
 void	ft_free_fds(t_pipex *pipex);
 void	ft_close_fds(t_pipex *pipex);
 char	*ft_read_from_file(int fd);
+int		ft_parse_args(t_pipex *pipex, char **argv, int cmd_count, char **env);
+void	ft_save_errors(char *error, char *cause, t_pipex *pipex);
 #endif

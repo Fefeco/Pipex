@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/21 13:55:13 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/23 19:45:06 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static int	aux(t_pipex *pipex, char ***argv, char **env)
 {
 	int	i;
 
-	ft_init_cmds(*argv + 2, pipex);
-	ft_init_paths(env, pipex);
 	ft_init_fds(pipex);
 	ft_init_pids(pipex);
 	if (ft_create_pipes(pipex))
@@ -46,7 +44,9 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc < 5)
 		return (ft_putstr_fd(EWRARGS, 2), 1);
-	mode = (O_WRONLY | O_CREAT);
+	//mode = (O_WRONLY | O_CREAT);
+	if (ft_parse_args(&pipex, ++argv, argc - 3, env))
+		exit(EXIT_FAILURE);
 	if (!ft_strncmp(argv[1], "here_doc", 8))
 	{
 		pipex.fd_out = ft_open_file(argv[argc - 1], mode | O_APPEND);

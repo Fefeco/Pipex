@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:58:09 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/23 19:11:16 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:17:20 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_check_cmd(char *cmd, char **env, t_pipex *pipex)
 	else if (access(path, X_OK))
 		ft_save_errors(ENOAUTH, tmp[0], pipex);
 	i = 0;
-	while (pipex->path[i])
+	while (pipex->cmd[i])
 		i++;
 	pipex->path[i] = path;
 	pipex->cmd[i] = tmp;

@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/23 13:25:09 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/24 11:24:09 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC_BONUS=get_path_bonus.c \
 		  init_bonus.c \
 		  free_bonus.c \
 		  close_fds_bonus.c \
+		  parse_args_bonus.c \
 		  read_bonus.c \
 		  pipex_utils_bonus.c
 

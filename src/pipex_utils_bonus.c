@@ -6,40 +6,52 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/21 13:45:44 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:24:54 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-static void	ft_wstderr(char *err, char *file_name)
+void	ft_save_errors(char *error, char *cause, t_pipex *pipex)
 {
-	ft_putstr_fd(err, 2);
-	ft_putstr_fd(file_name, 2);
-	write(2, "\n", 1);
-	exit(EXIT_FAILURE);
+	char	*full_error;
+
+	full_error = ft_strjoin(ft_strdup(error), ft_strdup(cause));
+	full_error = ft_strjoin(full_error, ft_strdup("\n"));
+	if (pipex->errors)
+		pipex->errors = ft_strjoin(pipex->errors, full_error);
+	else
+		pipex->errors = full_error;
 }
 
-int	ft_open_file(char *file_name, int mode)
+int	ft_open_fd_in(char *file_name, int mode, t_pipex *pipex)
 {
 	int	fd;
 
-	if (mode == O_RDONLY)
+	if (access(file_name, F_OK))
+		ft_save_errors(ENOFILE, file_name, pipex);
+	else if (access(file_name, R_OK))
+		ft_save_errors(ENOAUTH, file_name, pipex);
+	else
 	{
-		if (access(file_name, F_OK))
-			ft_wstderr(ENOFILE, file_name);
-		if (access(file_name, R_OK))
-			ft_wstderr(ENOAUTH, file_name);
 		fd = open(file_name, mode);
-		if (fd == -1)
-			ft_wstderr(EOPENFD, file_name);
-		return (fd);
+		if (fd != -1)
+			return (fd);
+		perror("Error function open()");
 	}
+	return (-1);
+}
+
+int	ft_open_fd_out(char *file_name, int mode, t_pipex *pipex)
+{
+	int	fd;
+
 	if (!access(file_name, F_OK))
 		if (access(file_name, W_OK))
-			ft_wstderr(ENOAUTH, file_name);
-	fd = open(file_name, mode, 0644);
-	if (fd == -1)
-		ft_wstderr(EOPENFD, file_name);
-	return (fd);
+			return (ft_save_errors(ENOAUTH, file_name, pipex), -1);
+	fd = open(file_name, mode);
+	if (fd != -1)
+		return (fd);
+	perror("Error function open()");
+	return (-1);
 }

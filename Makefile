@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/24 11:24:09 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/27 12:20:20 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIB=$(LIBFT_DIR)libftprintf.a
 INC=-Iinc -Ilibft/inc
 
 OBJ_DIR=objs/
+DEP_DIR=deps/
 SRC_DIR=src/
 LIBFT_DIR=libft/
 
@@ -44,6 +45,7 @@ SRC_BONUS=get_path_bonus.c \
 		  pipex_utils_bonus.c
 
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
+DEPS=$(patsubst %.c, $(DEP_DIR)%.d, $(SRC))
 OBJS_BONUS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC_BONUS))
 
 .PHONY: all clean fclean re
@@ -60,7 +62,9 @@ bonus: $(LIB) $(OBJS_BONUS) Makefile
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(FLAGS) $(INC) -c $< -o $@
+	@mkdir -p $(DEP_DIR)
+	$(CC) $(FLAGS) $(INC) -c -MMD $< -o $@
+	@mv $(OBJ_DIR)*.d $(DEP_DIR)
 
 $(LIB): $(LIBFT_DIR)Makefile
 	@echo "LIBFT COMPILING..."
@@ -68,10 +72,12 @@ $(LIB): $(LIBFT_DIR)Makefile
 
 clean:
 	@make clean -C $(LIBFT_DIR) > /dev/null
-	@rm -rf $(OBJ_DIR) bonus
+	@rm -rf $(OBJ_DIR) $(DEP_DIR) bonus
 
 fclean: clean
 	@make fclean -C $(LIBFT_DIR) > /dev/null
 	@rm -f $(NAME)
+
+-include $(DEPS)
 
 re: fclean all

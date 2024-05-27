@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/27 10:00:46 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:08:14 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_open_fd_out(char *file_name, int mode, t_pipex *pipex)
 	if (!access(file_name, F_OK))
 		if (access(file_name, W_OK))
 			return (ft_save_errors(ENOAUTH, file_name, pipex), -1);
-	fd = open(file_name, mode, 0666);
+	fd = open(file_name, mode, 0000666);
 	if (fd != -1)
 		return (fd);
 	perror("Error function open()");

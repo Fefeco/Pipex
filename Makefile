@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/27 12:20:20 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/27 13:23:15 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ INC=-Iinc -Ilibft/inc
 OBJ_DIR=objs/
 DEP_DIR=deps/
 SRC_DIR=src/
+OBJ_BONUS_DIR=$(OBJ_DIR)bonus_files/
+DEP_BONUS_DIR=$(DEP_DIR)bonus_files/
+SRC_BONUS_DIR=$(SRC_DIR)bonus_files/
 LIBFT_DIR=libft/
 
 SRC=get_path.c \
@@ -46,7 +49,8 @@ SRC_BONUS=get_path_bonus.c \
 
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
 DEPS=$(patsubst %.c, $(DEP_DIR)%.d, $(SRC))
-OBJS_BONUS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC_BONUS))
+OBJS_BONUS=$(patsubst %.c, $(OBJ_BONUS_DIR)%.o, $(SRC_BONUS))
+DEPS_BONUS=$(patsubst %.c, $(DEP_BONUS_DIR)%.d, $(SRC_BONUS))
 
 .PHONY: all clean fclean re
 
@@ -54,9 +58,11 @@ all: $(NAME)
 	@echo "===== READY ====="
 
 $(NAME): $(LIB) $(OBJS) Makefile
+	@rm -rf $(OBJ_BONUS_DIR)
 	$(CC) $(FLAGS) $(OBJS) $(LIB_FLAG) -o $(NAME)
 
 bonus: $(LIB) $(OBJS_BONUS) Makefile
+	@rm -f $(OBJS)
 	$(CC) $(FLAGS) $(OBJS_BONUS) $(LIB_FLAG) -o $(NAME)
 	@touch bonus
 
@@ -65,6 +71,12 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(DEP_DIR)
 	$(CC) $(FLAGS) $(INC) -c -MMD $< -o $@
 	@mv $(OBJ_DIR)*.d $(DEP_DIR)
+
+$(OBJ_BONUS_DIR)%.o: $(SRC_BONUS_DIR)%.c
+	@mkdir -p $(OBJ_BONUS_DIR)
+	@mkdir -p $(DEP_BONUS_DIR)
+	$(CC) $(FLAGS) $(INC) -c -MMD $< -o $@
+	@mv $(OBJ_BONUS_DIR)*.d $(DEP_BONUS_DIR)
 
 $(LIB): $(LIBFT_DIR)Makefile
 	@echo "LIBFT COMPILING..."

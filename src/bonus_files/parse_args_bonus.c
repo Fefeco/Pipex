@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 19:40:21 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/24 13:36:50 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:00:11 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_free_cmd_err_path(t_pipex *pipex)
 {
 	free (pipex->errors);
-	ft_free_array ((void **)pipex->path);
+	ft_free_array_len((void **)pipex->path, pipex->cmd_len);
 	ft_free_cmds(pipex);
 }
 
@@ -68,13 +68,6 @@ int	ft_alloc_cmd_err_path(t_pipex *pipex, int cmd_count)
 
 int	ft_parse_aux(t_pipex *pipex, char **argv, char **env, int i)
 {
-	int	mode;
-
-	if (!ft_strncmp(argv[0], "here_doc", 8))
-		mode = (O_WRONLY | O_CREAT | O_APPEND);
-	else
-		mode = (O_WRONLY | O_CREAT | O_TRUNC);
-	pipex->fd_out = ft_open_fd_out(argv[i + 1], mode, pipex);
 	if (pipex->fd_out != -1)
 		ft_check_cmd(argv[i], env, pipex);
 	if (!pipex->errors)
@@ -86,25 +79,26 @@ int	ft_parse_aux(t_pipex *pipex, char **argv, char **env, int i)
 int	ft_parse_args(t_pipex *pipex, char **argv, int cmd_count, char **env)
 {
 	int	i;
+	int	mode;
 
 	i = 0;
 	if (!ft_strncmp(argv[0], "here_doc", 8))
 	{
+		mode = (O_WRONLY | O_CREAT | O_APPEND);
 		i += 2;
 		--cmd_count;
 	}
-	if (ft_alloc_cmd_err_path(pipex, cmd_count))
-		return (perror("Fail allocating memory"), 1);
-	if (!ft_strncmp(argv[0], "here_doc", 8))
-		ft_check_cmd(argv[i], env, pipex);
 	else
 	{
+		mode = (O_WRONLY | O_CREAT | O_TRUNC);
 		pipex->fd_in = ft_open_fd_in(argv[i++], O_RDONLY, pipex);
-		if (pipex->fd_in != -1)
-			ft_check_cmd(argv[i], env, pipex);
+		if (pipex->fd_in == -1)
+			++i;
 	}
-	++i;
-	while (i < cmd_count - 1)
+	if (ft_alloc_cmd_err_path(pipex, cmd_count))
+		return (perror("Fail allocating memory"), 1);
+	while (argv[i + 2])
 		ft_check_cmd(argv[i++], env, pipex);
+	pipex->fd_out = ft_open_fd_out(argv[i + 1], mode, pipex);
 	return (ft_parse_aux(pipex, argv, env, i));
 }

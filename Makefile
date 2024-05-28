@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/27 13:23:15 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/28 11:30:35 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,6 @@ fclean: clean
 	@make fclean -C $(LIBFT_DIR) > /dev/null
 	@rm -f $(NAME)
 
--include $(DEPS)
+-include $(DEPS) $(DEPS_BONUS)
 
 re: fclean all

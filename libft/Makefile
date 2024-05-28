@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 10:09:12 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/16 21:25:03 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/05/28 11:02:34 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ LIBFT_F=$(LIBFT_DIR)/ft_atoi.c \
 		$(LIBFT_DIR)/ft_bzero.c \
 		$(LIBFT_DIR)/ft_calloc.c \
 		$(LIBFT_DIR)/ft_free_array.c \
+		$(LIBFT_DIR)/ft_free_array_len.c \
 		$(LIBFT_DIR)/ft_isalnum.c \
 		$(LIBFT_DIR)/ft_isalpha.c \
 		$(LIBFT_DIR)/ft_isascii.c \

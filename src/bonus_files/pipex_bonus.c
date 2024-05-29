@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/28 11:52:22 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:45:18 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **env)
 	t_pipex	pipex;
 	int		i;
 
-	if (argc < 5 || (argc == 5 && ft_strncmp(argv[0], "here_doc", 8)))
+	if (argc < 5 || (argc == 5 && !ft_strncmp(argv[1], "here_doc", 8)))
 		return (ft_putstr_fd(EWRARGS, 2), 1);
 	if (ft_parse_args(&pipex, ++argv, argc - 3, env))
 		exit(EXIT_FAILURE);

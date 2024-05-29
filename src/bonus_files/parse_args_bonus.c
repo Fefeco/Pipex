@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 19:40:21 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/28 11:00:11 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:09:58 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ int	ft_alloc_cmd_err_path(t_pipex *pipex, int cmd_count)
 	int	i;
 
 	pipex->cmd_len = cmd_count;
-	pipex->errors = NULL;
 	pipex->path = (char **)malloc(sizeof(char **) * (cmd_count + 1));
 	if (!pipex->path)
 		return (1);
-	pipex->path[cmd_count] = NULL;
+	i = 0;
+	while (i <= cmd_count)
+		pipex->path[i++] = NULL;
 	pipex->cmd = (char ***)malloc(sizeof(char ***) * (cmd_count + 1));
 	if (!pipex->cmd)
 		return (free (pipex->path), 1);
@@ -81,6 +82,7 @@ int	ft_parse_args(t_pipex *pipex, char **argv, int cmd_count, char **env)
 	int	i;
 	int	mode;
 
+	pipex->errors = NULL;
 	i = 0;
 	if (!ft_strncmp(argv[0], "here_doc", 8))
 	{

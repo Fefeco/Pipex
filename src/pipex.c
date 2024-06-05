@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/23 18:07:14 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:01:32 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 5)
 		return (ft_putstr_fd(EWRARGS, 2), 1);
+	i = 0;
+	while (i < argc)
+	{
+		if (!argv[i++][0])
+			return (ft_putstr_fd(EWRARGS, 2), 1);
+	}
 	if (ft_parse_args(&pipex, ++argv, argc - 3, env))
 		exit(EXIT_FAILURE);
 	pipex.std_in = ft_read_from_file(pipex.fd_in);

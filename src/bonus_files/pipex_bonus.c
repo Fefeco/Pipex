@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/29 15:45:18 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:24:12 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,21 @@ void	ft_exit_clean(t_pipex *pipex)
 	free(pipex->pid);
 }
 
+void	ft_check_null_arg(int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (i < argc)
+	{
+		if (!argv[i++][0])
+		{
+			ft_putstr_fd(EWRARGS, 2);
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
@@ -27,6 +42,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc < 5 || (argc == 5 && !ft_strncmp(argv[1], "here_doc", 8)))
 		return (ft_putstr_fd(EWRARGS, 2), 1);
+	ft_check_null_arg(argc, argv);
 	if (ft_parse_args(&pipex, ++argv, argc - 3, env))
 		exit(EXIT_FAILURE);
 	if (!ft_strncmp(argv[0], "here_doc", 8))

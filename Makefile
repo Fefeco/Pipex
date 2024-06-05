@@ -6,13 +6,13 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/05/28 11:30:35 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/06/05 10:39:59 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=pipex
 CC=gcc
-FLAGS=-Wall -Wextra -Werror
+FLAGS=-Wall -Wextra -Werror -fPIE
 LIB_FLAG=-lftprintf -Llibft
 LIB=$(LIBFT_DIR)libftprintf.a
 INC=-Iinc -Ilibft/inc

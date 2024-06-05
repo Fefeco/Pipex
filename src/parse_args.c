@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:58:09 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/24 13:17:20 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:18:07 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_free_cmd_err_path(t_pipex *pipex)
 {
 	free (pipex->errors);
-	ft_free_array ((void **)pipex->path);
+	ft_free_array_len((void **)pipex->path, pipex->cmd_len);
 	ft_free_cmds(pipex);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 14:04:50 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/04/03 18:54:36 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:00:22 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static char	*ft_get_remind(char *buffer, char *line)
 	while (line[i])
 		++i;
 	len = ft_strlen(&buffer[i]) + 1;
+	if (len == 1)
+		return (free (buffer), NULL);
 	remind = (char *)malloc(sizeof(char) * len);
 	if (!remind)
 		return (NULL);

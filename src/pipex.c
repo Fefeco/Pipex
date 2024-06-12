@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/12 13:32:05 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:20:45 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ int	main(int argc, char **argv, char **env)
 	while (i < argc)
 		if (!ft_isalnum(argv[i++][0]))
 			ft_exit_wrong_args();
+	pipex.fd_in = ft_open_fd_in(argv[1], O_RDONLY);
 	if (ft_parse_args(&pipex, ++argv, argc - 3, env))
 		exit(EXIT_FAILURE);
-	pipex.std_in = ft_read_from_file(pipex.fd_in);
-	ft_init_fds(&pipex);
 	ft_init_pids(&pipex);
 	if (ft_create_pipes(&pipex))
 		return (ft_exit_clean(&pipex), 1);

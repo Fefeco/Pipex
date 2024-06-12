@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/12 13:18:09 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:09:02 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,38 +24,20 @@ void	ft_save_errors(char *error, char *cause, t_pipex *pipex)
 		pipex->errors = full_error;
 }
 
-static void	ft_open_fd_in_aux(int *fd)
-{
-	perror("pipex: 'entrada estandar'");
-	close(*fd);
-	*fd = -1;
-}
-
-int	ft_open_fd_in(char *file_name, int mode, t_pipex *pipex)
+int	ft_open_fd_in(char *file_name, int mode)
 {
 	int		fd;
-	char	*check_directory;
 
-	if (access(file_name, F_OK))
-		ft_save_errors(ENOFILE, file_name, pipex);
-	else if (access(file_name, R_OK))
-		ft_save_errors(ENOAUTH, file_name, pipex);
+	fd = -1;
+	if (access(file_name, F_OK | R_OK))
+		ft_printf("pipex: %s: %s\n", strerror(errno), file_name);
 	else
 	{
-		check_directory = (char *)malloc(1);
-		if (!check_directory)
-			return (-1);
 		fd = open(file_name, mode);
-		if (fd != -1)
-		{
-			if (read(fd, check_directory, 0) < 0)
-				ft_open_fd_in_aux(&fd);
-			free(check_directory);
-			return (fd);
-		}
-		perror("Error function open()");
+			if (fd == -1)
+				ft_printf("pipex: %s\n", strerror(errno));
 	}
-	return (-1);
+	return (fd);
 }
 
 int	ft_open_fd_out(char *file_name, int mode, t_pipex *pipex)

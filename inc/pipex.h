@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/23 19:22:55 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:58:15 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define ECMDNOF "pipex: command not found: "
 # define ENOAUTH "pipex: permission denied: "
 # define EOPENFD "pipex: error open file descriptor: "
-# define EWRARGS "pipex: invalid number of arguments\n"
 
 typedef struct s_pipex
 {

@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/12 12:07:40 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:32:05 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,23 @@ void	ft_exit_clean(t_pipex *pipex)
 	free(pipex->pid);
 }
 
+static void	ft_exit_wrong_args(void)
+{
+	ft_putendl_fd("pipex: invalid number of arguments", 2);
+	exit (EXIT_FAILURE);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
 	int		i;
 
 	if (argc != 5)
-		return (ft_putendl_fd("pipex: invalid number of arguments", 2), 1);
+		ft_exit_wrong_args();
 	i = 1;
 	while (i < argc)
 		if (!ft_isalnum(argv[i++][0]))
-			return (ft_putendl_fd("pipex: invalid number of arguments", 2), 1);
+			ft_exit_wrong_args();
 	if (ft_parse_args(&pipex, ++argv, argc - 3, env))
 		exit(EXIT_FAILURE);
 	pipex.std_in = ft_read_from_file(pipex.fd_in);

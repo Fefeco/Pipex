@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:58:09 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/05 13:18:07 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:26:37 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	ft_parse_args(t_pipex *pipex, char **argv, int cmd_count, char **env)
 	if (ft_alloc_cmd_err_path(pipex, cmd_count))
 		return (perror("Fail allocating memory"), 1);
 	i = 0;
-	pipex->fd_in = ft_open_fd_in(argv[i++], O_RDONLY, pipex);
-	if (pipex->fd_in != -1)
-		ft_check_cmd(argv[i], env, pipex);
+	//pipex->fd_in = ft_open_fd_in(argv[i++], O_RDONLY, pipex);
+	//if (pipex->fd_in != -1)
+	//	ft_check_cmd(argv[i], env, pipex);
 	++i;
 	while (i < cmd_count - 1)
 		ft_check_cmd(argv[i++], env, pipex);

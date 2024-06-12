@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/12 17:56:38 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:53:47 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 typedef struct s_cmd
 {
 	char			*path;
-	char			*args;
+	char			**args;
 	int				fd_in;
 	int				fd_out;
 	struct s_cmd	*next;
@@ -38,7 +38,7 @@ typedef struct s_cmd
 
 typedef struct s_pipex
 {
-	t_cmd	command;
+	t_cmd	*commands;
 	char	***cmd;
 	char	**path;
 	char	*std_in;
@@ -63,4 +63,5 @@ void	ft_close_fds(t_pipex *pipex);
 char	*ft_read_from_file(int fd);
 int		ft_parse_args(t_pipex *pipex, char **argv, int cmd_count, char **env);
 void	ft_save_errors(char *error, char *cause, t_pipex *pipex);
+t_cmd	*ft_init_cmd(char *arg, char **env);
 #endif

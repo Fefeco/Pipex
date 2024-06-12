@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 20:31:07 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/23 19:21:18 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:58:55 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,26 @@ void	ft_init_pids(t_pipex *pipex)
 		ft_free_fds(pipex);
 		exit(EXIT_FAILURE);
 	}
+}
+
+t_cmd	*ft_init_cmd(char *arg, char **env)
+{
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!cmd)
+		exit(EXIT_FAILURE);
+	cmd->next = NULL;
+	cmd->args = ft_split(arg, ' ');
+	if (!cmd->args)
+	{
+		free (cmd);
+		perror("Fail ft_split()");
+		exit(EXIT_FAILURE);
+	}
+	if (cmd->args[0][0] == '/')
+		cmd->path = cmd->args[0];
+	else
+		cmd->path = ft_get_path(env, cmd->args[0]);
+	return (cmd);
 }

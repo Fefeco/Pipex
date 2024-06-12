@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/03 11:13:00 by fedeito          ###   ########.fr       */
+/*   Updated: 2024/06/12 13:18:09 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_open_fd_in(char *file_name, int mode, t_pipex *pipex)
 		fd = open(file_name, mode);
 		if (fd != -1)
 		{
-			if (read(fd, check_directory, 1) < 0)
+			if (read(fd, check_directory, 0) < 0)
 				ft_open_fd_in_aux(&fd);
 			free(check_directory);
 			return (fd);

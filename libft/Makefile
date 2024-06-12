@@ -6,13 +6,13 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 10:09:12 by fcarranz          #+#    #+#              #
-#    Updated: 2024/06/05 10:40:11 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/06/12 18:20:26 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 CC = clang
-CFLAGS = -Wall -Werror -Wextra -fPIE
+CFLAGS = -Wall -Werror -Wextra -fPIE -g
 INC=-Iinc
 
 LIBFT_DIR = src/libft

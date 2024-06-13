@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:00:59 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/13 16:28:33 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:06:29 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,36 @@ int	ft_free_cmds(t_cmd cmds)
 	return (1);
 }
 
-t_cmd	*ft_parcer(char **argv, int cmd_amount, char **env)
+static t_cmd	*ft_addlast(t_cmd *head, t_cmd *cmds)
+{
+	t_cmd	*tmp;
+
+	tmp = head;
+	while (tmp->next)
+		tmp = tmp->next
+	tmp->next = cmds;
+	return (head);
+}
+
+t_cmd	*ft_parser(char **argv, int cmd_amount, char **env)
 {
 	int		i;
 	t_cmd	*head;
-	t_cmd	*cmds;
+	t_cmd	*cmd;
 
 	i = 0;
 	while (i < cmd_amount)
 	{
+		cmd = (t_cmd *)malloc(sizeof(t_cmd));
+		if (!cmd)
+			return (ft_free_cmds(head));
 		if (i == 0)
-		{
-			head = (t_cmd *)malloc(sizeof(t_cmd));
-			if (!head)
-				return (NULL);
-			cmds = head;
-		}
+			head = cmd;
 		else
-		{
-			cmds->next = (t_cmd *)malloc(sizeof(t_cmd));
-			if (!cmds)
-				return (ft_free_cmds(head));
-			cmds = cmds->next;
-		}
-		cmds->cmd = ft_split(argv[i]);
-		cmds->path = ft_get_path(env, cmds->cmd[0]);
+			ft_addlast(head, cmd);
+		cmd->command = ft_split(argv[i]);
+		cmd->path = ft_get_path(env, cmd->command[0]);
+		cmd->next = NULL;
 		++i;
 	}
 	return (head);

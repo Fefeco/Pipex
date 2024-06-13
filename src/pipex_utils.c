@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/12 18:09:02 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:35:01 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	ft_open_fd_in(char *file_name, int mode)
 	else
 	{
 		fd = open(file_name, mode);
-			if (fd == -1)
-				ft_printf("pipex: %s\n", strerror(errno));
+		if (fd == -1)
+			ft_printf("pipex: %s\n", strerror(errno));
 	}
 	return (fd);
 }

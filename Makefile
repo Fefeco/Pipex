@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/06/12 18:20:13 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/06/13 17:15:44 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ LIBFT_DIR=libft/
 
 SRC=get_path.c \
 	pipex.c \
+	parser.c \
 	create_pipe.c \
 	create_process.c \
 	init.c \

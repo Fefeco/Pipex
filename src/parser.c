@@ -6,13 +6,13 @@
 /*   By: fcarranz <fcarranz@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:00:59 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/13 17:08:42 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:22:49 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_free_cmds(t_cmd cmds)
+void	*ft_free_commands(t_cmd *cmds)
 {
 	t_cmd	*tmp;
 
@@ -22,7 +22,7 @@ int	ft_free_cmds(t_cmd cmds)
 		free (cmds);
 		cmds = tmp;
 	}
-	return (1);
+	return (NULL);
 }
 
 static t_cmd	*ft_addlast(t_cmd *head, t_cmd *cmds)
@@ -31,7 +31,7 @@ static t_cmd	*ft_addlast(t_cmd *head, t_cmd *cmds)
 
 	tmp = head;
 	while (tmp->next)
-		tmp = tmp->next
+		tmp = tmp->next;
 	tmp->next = cmds;
 	return (head);
 }
@@ -47,12 +47,12 @@ t_cmd	*ft_parser(char **argv, int cmd_amount, char **env)
 	{
 		cmd = (t_cmd *)malloc(sizeof(t_cmd));
 		if (!cmd)
-			return (ft_free_cmds(head));
+			return (ft_free_commands(head));
 		if (i == 0)
 			head = cmd;
 		else
 			ft_addlast(head, cmd);
-		cmd->command = ft_split(argv[i]);
+		cmd->command = ft_split(argv[i], ' ');
 		cmd->path = ft_get_path(env, cmd->command[0]);
 		cmd->next = NULL;
 		++i;

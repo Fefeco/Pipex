@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/12 18:53:47 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:20:11 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 typedef struct s_cmd
 {
 	char			*path;
-	char			**args;
+	char			**command;
 	int				fd_in;
 	int				fd_out;
 	struct s_cmd	*next;
@@ -38,7 +38,7 @@ typedef struct s_cmd
 
 typedef struct s_pipex
 {
-	t_cmd	*commands;
+	t_cmd	*cmds;
 	char	***cmd;
 	char	**path;
 	char	*std_in;
@@ -47,7 +47,6 @@ typedef struct s_pipex
 	int		fd_in;
 	int		fd_out;
 	int		**fds;
-	int		*pid;
 }	t_pipex;
 
 int		ft_create_pipes(t_pipex *pipex);
@@ -55,7 +54,7 @@ int		ft_create_process(t_pipex *pipex, int i);
 void	ft_free_cmds(t_pipex *pipex);
 void	ft_free_fds(t_pipex *pipex);
 char	*ft_get_path(char **env, char *cmd);
-void	ft_init_fds(t_pipex *pipex);
+int		**ft_init_fds(int len);
 void	ft_init_pids(t_pipex *pipex);
 int		ft_open_fd_in(char *file_name, int mode);
 int		ft_open_fd_out(char *file_name, int mode, t_pipex *pipex);
@@ -64,4 +63,5 @@ char	*ft_read_from_file(int fd);
 int		ft_parse_args(t_pipex *pipex, char **argv, int cmd_count, char **env);
 void	ft_save_errors(char *error, char *cause, t_pipex *pipex);
 t_cmd	*ft_init_cmd(char *arg, char **env);
+t_cmd	*ft_parser(char **argv, int cmd_amount, char**env);
 #endif

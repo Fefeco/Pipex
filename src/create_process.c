@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:39:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/05/21 14:26:59 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:44:30 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int	ft_create_process(t_pipex *pipex, int i)
 {
-	pipex->pid[i] = fork();
-	if (pipex->pid[i] == -1)
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
 		return (1);
-	if (pipex->pid[i] == 0)
+	if (pid == 0)
 	{
 		dup2 (pipex->fds[i][0], STDIN_FILENO);
 		if (i < pipex->cmd_len - 1)
@@ -28,6 +30,6 @@ int	ft_create_process(t_pipex *pipex, int i)
 		execve (pipex->path[i], pipex->cmd[i], NULL);
 	}
 	close (pipex->fds[i][1]);
-	waitpid(pipex->pid[i], NULL, 0);
+	waitpid(pid, NULL, 0);
 	return (0);
 }

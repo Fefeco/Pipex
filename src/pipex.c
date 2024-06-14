@@ -6,16 +6,21 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/13 20:57:17 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:26:45 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/*void	ft_exit_clean(t_pipex *pipex)
+static void	ft_free_fds(t_pipex *pipex)
 {
-	ft_free_cmds(pipex);
-}*/
+	int	len;
+
+	len = pipex->tot_cmds - 1;
+	while (len >= 0)
+		free (pipex->fds[len--]);
+	free (pipex->fds);
+}
 
 static void	ft_exit_wrong_args(void)
 {
@@ -29,9 +34,17 @@ static t_cmd	*ft_get_next_cmd(t_cmd *cmds)
 
 	tmp = cmds;
 	cmds = cmds->next;
-	free (tmp);
-	tmp = NULL;
+	ft_free_cmd_struct(tmp);
 	return (cmds);
+}
+
+static void	ft_chech_first_or_last(t_pipex *pipex, char **argv, int argc)
+{
+	if (pipex->cmds->index == 0)
+		pipex->fd_in = ft_open_fd_in(argv[1], O_RDONLY);
+	if (!pipex->cmds->next)
+		pipex->fd_out = ft_open_fd_out(argv[argc -1], O_WRONLY
+				| O_TRUNC | O_CREAT);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -52,9 +65,11 @@ int	main(int argc, char **argv, char **env)
 	i = 0;
 	while (pipex.cmds)
 	{
-		ft_create_process(argv++, &pipex, i);
+		ft_chech_first_or_last(&pipex, argv, argc);
+		ft_create_process(&pipex, i);
 		pipex.cmds = ft_get_next_cmd(pipex.cmds);
+		++i;
 	}
-//	ft_exit_clean(&pipex);
+	ft_free_fds (&pipex);
 	return (0);
 }

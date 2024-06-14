@@ -6,20 +6,20 @@
 /*   By: fcarranz <fcarranz@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:00:59 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/13 17:22:49 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/14 12:57:01 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	*ft_free_commands(t_cmd *cmds)
+static void	*ft_free_commands(t_cmd *cmds)
 {
 	t_cmd	*tmp;
 
 	while (cmds)
 	{
 		tmp = cmds->next;
-		free (cmds);
+		ft_free_cmd_struct(cmds);
 		cmds = tmp;
 	}
 	return (NULL);
@@ -52,6 +52,7 @@ t_cmd	*ft_parser(char **argv, int cmd_amount, char **env)
 			head = cmd;
 		else
 			ft_addlast(head, cmd);
+		cmd->index = i;
 		cmd->command = ft_split(argv[i], ' ');
 		cmd->path = ft_get_path(env, cmd->command[0]);
 		cmd->next = NULL;

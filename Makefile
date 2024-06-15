@@ -6,7 +6,7 @@
 #    By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 10:54:20 by fcarranz          #+#    #+#              #
-#    Updated: 2024/06/14 13:16:45 by fcarranz         ###   ########.fr        #
+#    Updated: 2024/06/15 20:41:47 by fcarranz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,16 +33,15 @@ SRC=get_path.c \
 	init.c \
 	pipex_utils.c
 
-SRC_BONUS=get_path_bonus.c \
-		  pipex_bonus.c \
+SRC_BONUS=pipex_bonus.c \
+		  get_path_bonus.c \
+		  parser_bonus.c \
 		  create_pipe_bonus.c \
 		  create_process_bonus.c \
 		  init_bonus.c \
-		  free_bonus.c \
-		  close_fds_bonus.c \
-		  parse_args_bonus.c \
-		  read_bonus.c \
-		  pipex_utils_bonus.c
+		  pipex_utils_bonus.c \
+		  set_params_bonus.c \
+		  read_bonus.c
 
 OBJS=$(patsubst %.c, $(OBJ_DIR)%.o, $(SRC))
 DEPS=$(patsubst %.c, $(DEP_DIR)%.d, $(SRC))

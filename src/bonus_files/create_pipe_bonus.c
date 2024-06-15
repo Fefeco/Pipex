@@ -17,7 +17,7 @@ int	ft_create_pipes(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (i < pipex->cmd_len)
+	while (i < pipex->tot_cmds - 1)
 	{
 		if (pipe(pipex->fds[i]) == -1)
 		{

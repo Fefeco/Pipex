@@ -6,68 +6,63 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/03 11:20:43 by fedeito          ###   ########.fr       */
+/*   Updated: 2024/06/15 21:42:28 by fedeito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_save_errors(char *error, char *cause, t_pipex *pipex)
+void	ft_free_cmd_struct(t_cmd *cmd)
 {
-	char	*full_error;
+	int	i;
 
-	full_error = ft_strjoin(ft_strdup(error), ft_strdup(cause));
-	full_error = ft_strjoin(full_error, ft_strdup("\n"));
-	if (pipex->errors)
-		pipex->errors = ft_strjoin(pipex->errors, full_error);
-	else
-		pipex->errors = full_error;
+	if (cmd->path)
+		free (cmd->path);
+	i = 0;
+	while (cmd->command[i])
+		free (cmd->command[i++]);
+	free (cmd->command);
+	free (cmd);
+	cmd = NULL;
 }
 
-static void	ft_open_fd_in_aux(int *fd)
+void	ft_print_stderr(char *cause, char *error)
 {
-	perror("pipex: 'entrada estandar'");
-	close(*fd);
-	*fd = -1;
+	write(2, "pipex: ", 7);
+	write(2, cause, ft_strlen(cause));
+	write(2, ": ", 2);
+	write(2, error, ft_strlen(error));
+	write(2, "\n", 1);
 }
 
-int	ft_open_fd_in(char *file_name, int mode, t_pipex *pipex)
+int	ft_open_fd_in(char *file_name, int mode)
 {
 	int		fd;
-	char	*check_directory;
 
-	if (access(file_name, F_OK))
-		ft_save_errors(ENOFILE, file_name, pipex);
-	else if (access(file_name, R_OK))
-		ft_save_errors(ENOAUTH, file_name, pipex);
-	else
-	{
-		check_directory = (char *)malloc(1);
-		if (!check_directory)
-			return (-1);
-		fd = open(file_name, mode);
-		if (fd != -1)
-		{
-			if (read(fd, check_directory, 1) < 0)
-				ft_open_fd_in_aux(&fd);
-			free (check_directory);
-			return (fd);
-		}
-		perror("Error function open()");
-	}
-	return (-1);
+	fd = open(file_name, mode);
+	if (fd == -1)
+		ft_printf("pipex: %s: %s\n", file_name, strerror(errno));
+	return (fd);
 }
 
-int	ft_open_fd_out(char *file_name, int mode, t_pipex *pipex)
+int	ft_open_fd_out(char *file_name, int mode)
 {
-	int	fd;
+	int		fd;
 
-	if (!access(file_name, F_OK))
-		if (access(file_name, W_OK))
-			return (ft_save_errors(ENOAUTH, file_name, pipex), -1);
-	fd = open(file_name, mode, 0644);
-	if (fd != -1)
-		return (fd);
-	perror("pipex");
-	return (-1);
+	fd = open(file_name, mode, 0664);
+	if (fd == -1)
+		ft_printf("pipex: %s: %s\n", file_name, strerror(errno));
+	return (fd);
+}
+
+bool	ft_check_here_doc(t_pipex *pipex, char *str)
+{
+	if (ft_strncmp(str, "here_doc\0", 9))
+	{
+		pipex->here_doc_exist = false;
+		return (0);
+	}
+	pipex->here_doc_exist = true;
+	pipex->hd_file = "here_doc.tmp";
+	return (1);
 }

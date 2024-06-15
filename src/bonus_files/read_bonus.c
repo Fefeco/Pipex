@@ -6,20 +6,18 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 12:01:10 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/08 11:16:40 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/15 20:15:15 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-char	*ft_read_from_file(int fd, char *stop)
+char	*ft_read_from(int fd, char *stop)
 {
 	char	*read_line;
 	char	*full_line;
 
-	full_line = (char *)malloc(1);
-	if (!full_line)
-		return (full_line);
+	full_line = NULL;
 	read_line = get_next_line(fd);
 	while (read_line)
 	{
@@ -28,7 +26,10 @@ char	*ft_read_from_file(int fd, char *stop)
 			free (read_line);
 			break ;
 		}
-		full_line = ft_strjoin(full_line, read_line);
+		if (!full_line)
+			full_line = read_line;
+		else
+			full_line = ft_strjoin(full_line, read_line);
 		read_line = get_next_line(fd);
 	}
 	return (full_line);

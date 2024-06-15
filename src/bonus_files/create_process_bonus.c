@@ -12,22 +12,42 @@
 
 #include "pipex_bonus.h"
 
+static void	ft_exec_process(t_pipex *pipex, int i)
+{
+	if (pipex->cmds->index == 0)
+		dup2 (pipex->fd_in, STDIN_FILENO);
+	else
+		dup2 (pipex->fds[i - 1][0], STDIN_FILENO);
+	if (!pipex->cmds->next)
+		dup2 (pipex->fd_out, STDOUT_FILENO);
+	else
+		dup2 (pipex->fds[i][1], STDOUT_FILENO);
+	execve (pipex->cmds->path, pipex->cmds->command, NULL);
+	perror ("pipex");
+}
+
 int	ft_create_process(t_pipex *pipex, int i)
 {
-	pipex->pid[i] = fork();
-	if (pipex->pid[i] == -1)
+	int	pid;
+
+	if (pipex->cmds->index == 0 && pipex->fd_in == -1)
+		return (close (pipex->fds[i][1]));
+	if (!pipex->cmds->next && pipex->fd_out == -1)
 		return (1);
-	if (pipex->pid[i] == 0)
+	if (!pipex->cmds->path)
 	{
-		dup2 (pipex->fds[i][0], STDIN_FILENO);
-		if (i < pipex->cmd_len - 1)
-			dup2 (pipex->fds[i + 1][1], STDOUT_FILENO);
-		else
-			dup2 (pipex->fd_out, STDOUT_FILENO);
-		ft_close_fds(pipex);
-		execve (pipex->path[i], pipex->cmd[i], NULL);
+		ft_print_stderr(pipex->cmds->command[0], "command not found");
+		if (i < pipex->tot_cmds - 1)
+			close (pipex->fds[i][1]);
+		return (1);
 	}
-	close (pipex->fds[i][1]);
-	waitpid(pipex->pid[i], NULL, 0);
+	pid = fork();
+	if (pid == -1)
+		return (1);
+	if (pid == 0)
+		ft_exec_process(pipex, i);
+	if (i < pipex->tot_cmds - 1)
+		close (pipex->fds[i][1]);
+	waitpid(pid, NULL, 0);
 	return (0);
 }

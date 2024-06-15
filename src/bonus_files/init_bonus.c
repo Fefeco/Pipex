@@ -12,43 +12,26 @@
 
 #include "pipex_bonus.h"
 
-void	ft_init_fds(t_pipex *pipex)
+int	**ft_init_fds(int len)
 {
 	int	i;
-	int	len;
+	int	**fds;
 
-	len = pipex->cmd_len;
-	pipex->fds = (int **)malloc(sizeof(int **) * (len));
-	if (!pipex->fds)
-	{
-		ft_free_cmds(pipex);
-		ft_free_array((void **)pipex->path);
-		exit(EXIT_FAILURE);
-	}
+	fds = (int **)malloc(sizeof(int *) * len - 1);
+	if (!fds)
+		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < len - 1)
 	{
-		pipex->fds[i] = (int *)malloc(sizeof(int) * 2);
-		if (!pipex->fds[i])
+		fds[i] = (int *)malloc(sizeof(int) * 2);
+		if (!fds[i])
 		{
-			ft_free_fds(pipex);
-			exit(EXIT_FAILURE);
+			while (--i >= 0)
+				free(fds[i]);
+			free (fds);
+			return (NULL);
 		}
 		++i;
 	}
-}
-
-void	ft_init_pids(t_pipex *pipex)
-{
-	int	len;
-
-	len = pipex->cmd_len;
-	pipex->pid = (int *)malloc(sizeof(int *) * len);
-	if (!pipex->pid)
-	{
-		ft_free_cmds(pipex);
-		ft_free_array((void **)pipex->path);
-		ft_free_fds(pipex);
-		exit(EXIT_FAILURE);
-	}
+	return (fds);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_params.c                                       :+:      :+:    :+:   */
+/*   set_params_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 20:28:54 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/15 20:33:54 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/15 22:43:44 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_set_params(t_pipex *pipex, char **argv, int argc, char **env)
 	if (!pipex->here_doc_exist)
 	{
 		pipex->tot_cmds = argc - 3;
-		pipex->cmds = ft_parser(argv + 2, pipex->tot_cmds, env);		
+		pipex->cmds = ft_parser(argv + 2, pipex->tot_cmds, env);
 		return ;
 	}
 	read_from_here_doc = ft_read_from(STDIN_FILENO, argv[2]);

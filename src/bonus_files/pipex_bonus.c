@@ -34,6 +34,11 @@ static void	ft_chech_first_or_last(t_pipex *pipex, char **argv, int argc)
 	if (!pipex->cmds->next && pipex->here_doc_exist)
 		pipex->fd_out = ft_open_fd_out(argv[argc -1], O_WRONLY
 				| O_APPEND | O_CREAT);
+	if (pipex->cmds->index == 1 && pipex->here_doc_exist)
+	{
+		unlink (pipex->hd_file);
+		ft_printf("Llego aqui\n");
+	}
 }
 
 static void	ft_exit_wrong_args(void)

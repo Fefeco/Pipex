@@ -42,6 +42,7 @@ LIBFT_F=$(LIBFT_DIR)/ft_atoi.c \
 		$(LIBFT_DIR)/ft_strlcat.c \
 		$(LIBFT_DIR)/ft_strlcpy.c \
 		$(LIBFT_DIR)/ft_strlen.c \
+		$(LIBFT_DIR)/ft_lenstr.c \
 		$(LIBFT_DIR)/ft_strncmp.c \
 		$(LIBFT_DIR)/ft_strncmp_prot.c \
 		$(LIBFT_DIR)/ft_strnstr.c \

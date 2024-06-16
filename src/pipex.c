@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/14 13:26:45 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/16 12:01:11 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_free_fds(t_pipex *pipex)
 {
 	int	len;
 
-	len = pipex->tot_cmds - 1;
+	len = pipex->tot_cmds - 2;
 	while (len >= 0)
 		free (pipex->fds[len--]);
 	free (pipex->fds);

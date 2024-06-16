@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/15 20:31:14 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/16 11:59:40 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_free_fds(t_pipex *pipex)
 {
 	int	len;
 
-	len = pipex->tot_cmds - 1;
+	len = pipex->tot_cmds - 2;
 	while (len >= 0)
 		free (pipex->fds[len--]);
 	free (pipex->fds);
@@ -35,10 +35,7 @@ static void	ft_chech_first_or_last(t_pipex *pipex, char **argv, int argc)
 		pipex->fd_out = ft_open_fd_out(argv[argc -1], O_WRONLY
 				| O_APPEND | O_CREAT);
 	if (pipex->cmds->index == 1 && pipex->here_doc_exist)
-	{
 		unlink (pipex->hd_file);
-		ft_printf("Llego aqui\n");
-	}
 }
 
 static void	ft_exit_wrong_args(void)

@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:00:59 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/15 20:43:13 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:34:00 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ t_cmd	*ft_parser(char **argv, int cmd_amount, char **env)
 			ft_addlast(head, cmd);
 		cmd->index = i;
 		cmd->command = ft_split(argv[i], ' ');
-		cmd->path = ft_get_path(env, cmd->command[0]);
+		if (cmd->command[0][0] == '/')
+			cmd->path = ft_strdup(cmd->command[0]);
+		else
+			cmd->path = ft_get_path(env, cmd->command[0]);
 		cmd->next = NULL;
 		++i;
 	}

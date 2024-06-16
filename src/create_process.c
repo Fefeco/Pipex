@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:39:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/14 12:41:59 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:11:02 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_create_process(t_pipex *pipex, int i)
 		return (close (pipex->fds[i][1]));
 	if (!pipex->cmds->next && pipex->fd_out == -1)
 		return (1);
-	if (!pipex->cmds->path)
+	if (!pipex->cmds->path || access(pipex->cmds->path, X_OK))
 	{
 		ft_print_stderr(pipex->cmds->command[0], "command not found");
 		if (i < pipex->tot_cmds - 1)

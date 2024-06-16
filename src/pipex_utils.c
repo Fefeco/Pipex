@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/14 12:59:21 by fedeito          ###   ########.fr       */
+/*   Updated: 2024/06/16 10:49:24 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_free_cmd_struct(t_cmd *cmd)
 void	ft_print_stderr(char *cause, char *error)
 {
 	write(2, "pipex: ", 7);
-	write(2, cause, ft_strlen(cause));
+	write(2, cause, ft_lenstr(cause));
 	write(2, ": ", 2);
-	write(2, error, ft_strlen(error));
+	write(2, error, ft_lenstr(error));
 	write(2, "\n", 1);
 }
 

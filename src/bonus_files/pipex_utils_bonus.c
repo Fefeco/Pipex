@@ -6,11 +6,21 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 17:50:38 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/16 10:50:18 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:00:16 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+void	ft_free_fds(t_pipex *pipex)
+{
+	int	len;
+
+	len = pipex->tot_cmds - 2;
+	while (len >= 0)
+		free (pipex->fds[len--]);
+	free (pipex->fds);
+}
 
 void	ft_free_cmd_struct(t_cmd *cmd)
 {

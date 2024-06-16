@@ -6,7 +6,7 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:52 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/14 12:58:50 by fedeito          ###   ########.fr       */
+/*   Updated: 2024/06/16 12:25:32 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int		ft_open_fd_in(char *file_name, int mode);
 int		ft_open_fd_out(char *file_name, int mode);
 void	ft_print_stderr(char *cause, char *error);
 void	ft_free_cmd_struct(t_cmd *cmd);
+void	ft_free_fds(t_pipex *pipex);
 t_cmd	*ft_parser(char **argv, int cmd_amount, char **env);
 #endif

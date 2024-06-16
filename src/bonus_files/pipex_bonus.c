@@ -6,21 +6,11 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/16 11:59:40 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:05:43 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-static void	ft_free_fds(t_pipex *pipex)
-{
-	int	len;
-
-	len = pipex->tot_cmds - 2;
-	while (len >= 0)
-		free (pipex->fds[len--]);
-	free (pipex->fds);
-}
 
 static void	ft_chech_first_or_last(t_pipex *pipex, char **argv, int argc)
 {
@@ -38,10 +28,20 @@ static void	ft_chech_first_or_last(t_pipex *pipex, char **argv, int argc)
 		unlink (pipex->hd_file);
 }
 
-static void	ft_exit_wrong_args(void)
+static void	ft_exit_wrong_args(int error)
 {
-	ft_putendl_fd("pipex: invalid number of arguments", 2);
+	if (error == 1)
+		ft_putendl_fd("pipex: invalid number of arguments", 2);
+	if (error == 2)
+		ft_putendl_fd("pipex: passing invalid argument/s", 2);
 	exit (EXIT_FAILURE);
+}
+
+static void	ft_check_wrong_args(char c)
+{
+	if (!ft_isalnum(c))
+		if (c != '/')
+			ft_exit_wrong_args(2);
 }
 
 static t_cmd	*ft_get_next_cmd(t_cmd *cmds)
@@ -60,11 +60,10 @@ int	main(int argc, char **argv, char **env)
 	int		i;
 
 	if (argc < 5 || (ft_check_here_doc(&pipex, argv[1]) && argc == 5))
-		ft_exit_wrong_args();
+		ft_exit_wrong_args(1);
 	i = 1;
 	while (i < argc)
-		if (!ft_isalnum(argv[i++][0]))
-			ft_exit_wrong_args();
+		ft_check_wrong_args(argv[i++][0]);
 	ft_set_params(&pipex, argv, argc, env);
 	pipex.fds = ft_init_fds(pipex.tot_cmds);
 	ft_create_pipes(&pipex);

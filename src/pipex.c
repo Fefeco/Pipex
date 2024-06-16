@@ -6,26 +6,26 @@
 /*   By: fcarranz <fcarranz@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:47:26 by fcarranz          #+#    #+#             */
-/*   Updated: 2024/06/16 12:01:11 by fcarranz         ###   ########.fr       */
+/*   Updated: 2024/06/16 12:51:11 by fcarranz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	ft_free_fds(t_pipex *pipex)
+static void	ft_exit_wrong_args(int error)
 {
-	int	len;
-
-	len = pipex->tot_cmds - 2;
-	while (len >= 0)
-		free (pipex->fds[len--]);
-	free (pipex->fds);
+	if (error == 1)
+		ft_putendl_fd("pipex: invalid number of arguments", 2);
+	if (error == 2)
+		ft_putendl_fd("pipex: passing invalid argument/s", 2);
+	exit (EXIT_FAILURE);
 }
 
-static void	ft_exit_wrong_args(void)
+static void	ft_check_wrong_args(char c)
 {
-	ft_putendl_fd("pipex: invalid number of arguments", 2);
-	exit (EXIT_FAILURE);
+	if (!ft_isalnum(c))
+		if (c != '/')
+			ft_exit_wrong_args(2);
 }
 
 static t_cmd	*ft_get_next_cmd(t_cmd *cmds)
@@ -53,11 +53,10 @@ int	main(int argc, char **argv, char **env)
 	int		i;
 
 	if (argc != 5)
-		ft_exit_wrong_args();
+		ft_exit_wrong_args(1);
 	i = 1;
 	while (i < argc)
-		if (!ft_isalnum(argv[i++][0]))
-			ft_exit_wrong_args();
+		ft_check_wrong_args(argv[i++][0]);
 	pipex.tot_cmds = argc -3;
 	pipex.cmds = ft_parser(argv + 2, pipex.tot_cmds, env);
 	pipex.fds = ft_init_fds(pipex.tot_cmds);

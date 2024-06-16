@@ -64,15 +64,3 @@ int	ft_open_fd_out(char *file_name, int mode)
 		ft_printf("pipex: %s: %s\n", file_name, strerror(errno));
 	return (fd);
 }
-
-bool	ft_check_here_doc(t_pipex *pipex, char *str)
-{
-	if (ft_strncmp(str, "here_doc\0", 9))
-	{
-		pipex->here_doc_exist = false;
-		return (0);
-	}
-	pipex->here_doc_exist = true;
-	pipex->hd_file = "here_doc.tmp";
-	return (1);
-}
